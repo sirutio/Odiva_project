@@ -1,4 +1,3 @@
-/* static/style.css */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -15,6 +14,12 @@ a {
     color: white;
 }
 
+ul, ol { 
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -23,32 +28,30 @@ a {
     padding: 10px 16px;
 }
 
-.navbar_logo a {
+.navbar__logo a {
     font-size: 20px;
     font-weight: bold;
     color: white;
 }
 
-.navbar_menu {
-    list-style: none; 
-    display: flex;    
-    padding: 0;
-    margin: 0;
+.navbar__menu {
+    display: flex !important; 
+    list-style: none;
 }
 
-.navbar_menu li {
-    padding: 0 15px;
+.navbar__menu li {
+    padding: 0 25px; 
 }
 
-.navbar_menu a {
+.navbar__menu a {
     color: white;
-    font-size: 16px;
+    font-size: 18px;
 }
 
-.navbar_menu li:hover a {
+.navbar__menu li:hover a {
     color: #ffd700;
 }
 
-.navbar_toogleBtn {
+.navbar__toggleBtn {
     display: none;
 }

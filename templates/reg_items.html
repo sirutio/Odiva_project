@@ -2,10 +2,6 @@
 
 {% block section %}
 <form action="/submit_item_post" enctype="multipart/form-data" method="post">
-    <div>
-        <label for="img">Representative Image upload : </label>
-        <input type="file" name="file" /><br><br>
-    </div>
     <div><br><br>
         <label for="name">Item name: </label>
         <input type="text" name="name" id="name" required><br><br>
@@ -53,6 +49,10 @@
     <div>
         <label for="phone">Phone: </label>
         <input type="text" name="phone" id="phone"><br><br>
+    </div>
+    <div>
+        <label for="img">Representative Image upload : </label>
+        <input type="file" name="file" /><br><br>
     </div>
     <div>
         <input type="submit" value="Submit!"><br><br>

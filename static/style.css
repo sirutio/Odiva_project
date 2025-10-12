@@ -37,6 +37,7 @@ a {
 
 .navbar_menu li {
     padding: 0 15px;
+    display: inline-block; 
 }
 
 .navbar_menu a {

@@ -1,16 +1,61 @@
 {% extends "index.html" %}
 
 {% block section %}
-    <h2>상품 등록 화면 입니다.</h2>
-    <p>새로운 상품을 등록하기 위한 입력 폼을 여기에 구성합니다.</p>
-    
-    <form action="/submit_item" method="POST">
-        <label for="item_name">상품 이름:</label>
-        <input type="text" id="item_name" name="item_name" required><br><br>
-        
-        <label for="seller_id">판매자 ID:</label>
-        <input type="text" id="seller_id" name="seller_id" required><br><br>
-        
-        <input type="submit" value="상품 등록">
-    </form>
+<form action="/submit_item_post" enctype="multipart/form-data" method="post">
+    <div>
+        <label for="img">Representative Image upload : </label>
+        <input type="file" name="file" /><br><br>
+    </div>
+    <div><br><br>
+        <label for="name">Item name: </label>
+        <input type="text" name="name" id="name" required><br><br>
+    </div>
+    <div>
+        <label for="seller"> Seller ID: </label>
+        <input type="text" name="seller" id="seller" required><br><br>
+    </div>
+    <div>
+        <label for="addr"> Address: </label>
+        <input type="text" name="addr" id="addr" required><br><br>
+    </div>
+    <div>
+        <label for="tel">Email:</label>
+        <input type="text" name="email" id="email" required><br><br>
+    </div>
+    <div>
+        <label for="category">Category: </label>
+        <br>
+        <select id="category" name="category">
+            <option value="Clothes" selected> Clothes </option>
+            <option value="Beauty"> Beauty </option>
+            <option value="Books"> Books </option>
+            <option value="Furniture"> Furniture </option>
+            <option value="Electronics"> Electronics </option>
+        </select><br><br>
+    </div>
+    <div>
+        <label for="card">Credit Card? (Y/N) </label>
+        <br>
+        <select id="card" name="card">
+            <option value="Y" selected>Yes</option>
+            <option value="N">No</option>
+        </select><br><br>
+    </div>
+    <div>
+        <label for="status">Status? </label>
+        <br>
+        <select id="status" name="status">
+            <option value="new" selected>New</option>
+            <option value="Inew">Likely New</option>
+            <option value="used">Used</option>
+        </select><br><br>
+    </div>
+    <div>
+        <label for="phone">Phone: </label>
+        <input type="text" name="phone" id="phone"><br><br>
+    </div>
+    <div>
+        <input type="submit" value="Submit!"><br><br>
+    </div>
+</form>
 {% endblock section %}

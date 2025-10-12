@@ -1,9 +1,9 @@
 from flask import Flask, render_template
 import sys
 
-application = Flask(__name__)
+app = Flask(__name__)
 
-@application.route("/")
+@app.route("/")
 def hello():
 return "Hello my webpage!"
 

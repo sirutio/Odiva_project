@@ -5,6 +5,10 @@
     font-family: Arial, sans-serif;
 }
 
+body {
+    background-color: white;
+}
+
 a {
     text-decoration: none;
     color: white;
@@ -14,36 +18,36 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
-    padding: 8px 12px;
+    background-color: #2b2b2b;
+    padding: 10px 16px;
 }
 
 .navbar_logo a {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    color: #ffda6a;
+    color: white;
 }
 
 .navbar_menu {
     list-style: none;
     display: flex;
+    padding: 0;
     margin: 0;
-    padding-left: 0;
 }
 
 .navbar_menu li {
-    padding: 8px 12px;
+    padding: 0 15px;
 }
 
-.navbar_menu li:hover {
-    background-color: #555;
-    border-radius: 4px;
+.navbar_menu a {
+    color: white;
+    font-size: 16px;
+}
+
+.navbar_menu li:hover a {
+    color: #ffd700;
 }
 
 .navbar_toogleBtn {
     display: none;
-    color: white;
-    font-size: 24px;
-    position: absolute;
-    right: 12px;
 }

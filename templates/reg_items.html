@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+{% block section %}
+    <h2>상품 등록 화면 입니다.</h2>
+    <p>새로운 상품을 등록하기 위한 입력 폼을 여기에 구성합니다.</p>
+    
+    <form action="/submit_item" method="POST">
+        <label for="item_name">상품 이름:</label>
+        <input type="text" id="item_name" name="item_name" required><br><br>
+        
+        <label for="seller_id">판매자 ID:</label>
+        <input type="text" id="seller_id" name="seller_id" required><br><br>
+        
+        <input type="submit" value="상품 등록">
+    </form>
+{% endblock section %}

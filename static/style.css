@@ -5,45 +5,53 @@
     font-family: Arial, sans-serif;
 }
 
+body {
+    background-color: white;
+}
+
 a {
     text-decoration: none;
     color: white;
+}
+
+ul, ol { 
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
-    padding: 8px 12px;
+    background-color: #2b2b2b;
+    padding: 10px 16px;
 }
 
-.navbar_logo a {
-    font-size: 24px;
+.navbar__logo a {
+    font-size: 20px;
     font-weight: bold;
-    color: #ffda6a;
-}
-
-.navbar_menu {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding-left: 0;
-}
-
-.navbar_menu li {
-    padding: 8px 12px;
-}
-
-.navbar_menu li:hover {
-    background-color: #555;
-    border-radius: 4px;
-}
-
-.navbar_toogleBtn {
-    display: none;
     color: white;
-    font-size: 24px;
-    position: absolute;
-    right: 12px;
+}
+
+.navbar__menu {
+    display: flex !important; 
+    list-style: none;
+}
+
+.navbar__menu li {
+    padding: 0 25px; 
+}
+
+.navbar__menu a {
+    color: white;
+    font-size: 18px;
+}
+
+.navbar__menu li:hover a {
+    color: #ffd700;
+}
+
+.navbar__toggleBtn {
+    display: none;
 }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EwhaMarket - 리뷰 상세</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pg36_style.css') }}">
+    
+</head>
+<body>
+<section>
+      {% extends "index.html" %}
+      {% block section %}
+
+      <main class="container">
+        
+        <section id="review-detail" class="page-section">
+            <div class="review-header">
+                <p class="review-author">ewha_osp12team님이 남긴 평가입니다.</p>
+                <div class="stars">
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                </div>
+                <p class="rating-score">5.0</p>
+                <p class="review-meta">제품명: 피부 장벽 활력 크림 | 구매 일자: 2025-10-17 | 판매자: 에이트뷰티</p>
+            </div>
+
+            <div class="review-content-box">
+                <p>피부 장벽 활력 크림이라는 이름처럼 정말 피부가 탄탄해지는 느낌입니다.</p>
+                <p>성분도 좋고 자극적이지 않은 편이에요! 며칠 꾸준히 바르니 속건조가 많이 잡혔습니다.</p>
+                <p>제형은 너무 무겁지도 가볍지도 않아서 사계절 내내 잘 쓸 것 같습니다. 추천합니다!</p>
+
+                <a href="#" class="btn-product-link">제품 바로가기</a>
+            </div>
+            </section>
+
+    </main>
+    
+      {% endblock section %}
+</section> 
+
+    
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='pg1_product_register.css') }}">
+        
+        <title>EwhaMarket - 상품등록화면</title>
+    </head>
+    <body>
+    <section>
+        {% extends "index.html" %}
+        {% block section %}
+    <main>
+      <a class="back" href="{{ url_for('view_pg2_상품전체조회화면') }}">← Back to Product list</a>
+      <h1 class="add">Add New Product</h1>
+
+      <form action="/submit_product" method="post" enctype="multipart/form-data">
+
+        <h3 class="title">Product Information</h3>
+
+          <div class="col2">
+            <label for="iname">Item name</label>
+            <input type="text" id="iname" name="iname" required>
+          </div>
+
+          <div class="col2">
+            <label for="price">Price</label>
+            <input type="text" id="price" name="price" placeholder="숫자만 작성해주세요" required>
+          </div>
+
+          <div class="col1">
+            <label for="des">Description</label>
+            <textarea id="des" name="description" rows="6"></textarea>
+          </div>
+
+          <div class="col3">
+            <label for="category">Category</label>
+            <select id="category" name="category">
+                <option value="textbook">교과서</option>
+                <option value="clothes">의류</option>
+                <option value="item">생활용품</option>
+                <option value="food">먹거리</option>
+                <option value="giftcard">모바일 상품권</option>
+                <option value="etc">그 외</option>
+            </select>
+          </div>
+
+          <div class="col3">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="s-1">새제품</option>
+                <option value="s-2">하자 없음</option>
+                <option value="s-3">사용감 있음</option>
+                <option value="s-4">유의미한 하자 존재</option>
+            </select>
+          </div>
+
+          <div class="col3">
+            <label for="creditcard">Credit Card</label>
+            <select id="creditcard" name="creditcard">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+          </div>
+
+          <fieldset class="uploader col1">
+            <legend>Image Upload</legend>
+            <input id="file" name="file" type="file" />
+            <label for="file" class="dropzone">
+              <span class="drop-hint">첨부 파일을 마우스로 끌어오세요</span>
+              <span class="sub">또는 클릭하여 선택</span>
+            </label>
+          </fieldset>
+
+          <h3 class="title">Seller Information</h3>
+
+          <div class="col2">
+            <label for="sID">Seller ID</label>
+            <input type="text" id="sID" name="sID">
+          </div>
+
+          <div class="col2">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+          </div>
+
+          <div class="col2">
+            <label for="addr">Address</label>
+            <input type="text" id="addr" name="addr" placeholder="시/구 단위">
+          </div>
+
+          <div class="col2">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" name="phone" placeholder="'-' 제외">
+          </div>
+
+          <footer>
+            <button type="submit">Submit</button>
+          </footer>
+
+      </form>
+    </main>
+        {% endblock section %}
+    </section> 
+        
+    </body>
+</html>

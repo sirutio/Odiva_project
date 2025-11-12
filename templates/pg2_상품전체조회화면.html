@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EwhaMarket - 상품 전체조회</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='pg2_상품전체조회화면.css') }}">
+</head>
+<body>
+<section>
+  {% extends "index.html" %}
+  {% block section %}
+      <!-- 검색창 -->
+  <section class="search-section">
+    <input type="text" placeholder="제품명 키워드로 검색">
+    <button class="search-btn">🔍</button>
+    <button class="add-btn">+ Add Product</button>
+  </section>
+
+  <!-- 상품 카드 영역 -->
+  <main class="product-container">
+    <div class="product-card">
+      <img src="{{ url_for('static', filename='images/ipad_image.jpg') }}" alt="EWHA MARKET">
+      
+      <h3>Apple IPAD</h3>
+      <p class="price">1,000,000원</p>
+      <p class="desc">Smartphone</p>
+      <div class="bottom">
+        <span class="rating">★5.0</span>
+        <button class="cart-btn">+ 장바구니 담기</button>
+      </div>
+    </div>
+
+    <!-- 이하 샘플 카드들 -->
+    <div class="product-card">
+      <div class="img-placeholder"></div>
+      <h3>상품명</h3>
+      <p class="price">00,000,000원</p>
+      <p class="desc">상품 설명</p>
+      <div class="bottom">
+        <span class="rating">★5.0</span>
+        <button class="cart-btn">+ 장바구니 담기</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="img-placeholder"></div>
+      <h3>상품명</h3>
+      <p class="price">00,000,000원</p>
+      <p class="desc">상품 설명</p>
+      <div class="bottom">
+        <span class="rating">★5.0</span>
+        <button class="cart-btn">+ 장바구니 담기</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="img-placeholder"></div>
+      <h3>상품명</h3>
+      <p class="price">00,000,000원</p>
+      <p class="desc">상품 설명</p>
+      <div class="bottom">
+        <span class="rating">★5.0</span>
+        <button class="cart-btn">+ 장바구니 담기</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="img-placeholder"></div>
+      <h3>상품명</h3>
+      <p class="price">00,000,000원</p>
+      <p class="desc">상품 설명</p>
+      <div class="bottom">
+        <span class="rating">★5.0</span>
+        <button class="cart-btn">+ 장바구니 담기</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="img-placeholder"></div>
+      <h3>상품명</h3>
+      <p class="price">00,000,000원</p>
+      <p class="desc">상품 설명</p>
+      <div class="bottom">
+        <span class="rating">★5.0</span>
+        <button class="cart-btn">+ 장바구니 담기</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="img-placeholder"></div>
+      <h3>상품명</h3>
+      <p class="price">00,000,000원</p>
+      <p class="desc">상품 설명</p>
+      <div class="bottom">
+        <span class="rating">★5.0</span>
+        <button class="cart-btn">+ 장바구니 담기</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="img-placeholder"></div>
+      <h3>상품명</h3>
+      <p class="price">00,000,000원</p>
+      <p class="desc">상품 설명</p>
+      <div class="bottom">
+        <span class="rating">★5.0</span>
+        <button class="cart-btn">+ 장바구니 담기</button>
+      </div>
+    </div>
+  </main> 
+    
+  {% endblock section %}
+</section> 
+
+  
+</body>
+</html>

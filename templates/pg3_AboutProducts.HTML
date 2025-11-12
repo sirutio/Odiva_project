@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EwhaMarket - 상품 상세</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pg36_style.css') }}">
+</head>
+<body>
+<section>
+      {% extends "index.html" %}
+      {% block section %}
+      <main class="container">
+        
+        <section id="product-detail" class="page-section">
+            <div class="product-content">
+                
+                <div class="product-image-box">
+                    <img id="product-image" src="" alt="제품 상세 이미지" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
+                </div>
+                
+                <div class="product-info">
+                    <h1 class="product-name">제품명</h1>
+                    <p class="product-price">12,000원</p>
+                    
+                    <div class="info-line">
+                        <span class="info-label">상태</span>
+                        <span class="info-value" id="product-status">정보 없음</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-label">판매자</span>
+                        <span class="info-value" id="product-seller">정보 없음</span>
+                    </div>
+                    <div class="info-line">
+                        <span class="info-label">등록일</span>
+                        <span class="info-value" id="product-date">정보 없음</span>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <button class="btn btn-buy">구매하기</button>
+                    </div>
+                    </div>
+            </div>
+
+            <div class="product-description-section">
+                <h2>상세 설명</h2>
+                
+                <div id="product-description-content" class="description-content no-description">
+                    </div>
+
+            </div>
+
+            <div class="related-products-section">
+                <h2>관련 상품</h2>
+                
+                <div id="related-products-content" class="related-products no-related-products">
+                     </div>
+
+            </div>
+        </section>
+
+    </main>
+    
+    {% endblock section %} 
+
+  
+</body>
+</html>

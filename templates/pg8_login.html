@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EwhaMarket - 로그인</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #ffffff;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #222;
+      overflow-y: scroll;
+
+    }
+
+    .form-container {
+      width: 320px;
+      margin: 100px auto;
+      padding: 32px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      background-color: #ffffff;
+    }
+
+    .form-container h2 {
+      margin-bottom: 22px;
+      font-size: 20px;
+      font-weight: 750;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      font-size: 13px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="password"] {
+      width: 100%;
+      padding: 10px 16px;
+      margin-bottom: 14px;
+      border: 1.6px solid rgba(0, 0, 0, 0.18);
+      border-radius: 22px;
+      outline: none;
+      font-size: 13.5px;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 22px;
+      background-color: #004d2c;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
+    .form-container button:hover {
+      background-color: #036636;
+    }
+
+    .signup-link {
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .signup-link a {
+      color: #004d2c;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+<section>
+{% extends "index.html" %}
+{% block title %}EwhaMarket - 로그인{% endblock title %}
+
+{% block section %}
+{% with mesg = get_flashed_messages() %}
+{% if mesg !=[] %}
+    <script> alert("{{mesg[0] }}")</script>
+{%endif%}
+{%endwith %}
+<div class="form-container">
+  <h2>Login to your account</h2>
+  <form action="/login" method="post">
+    <label for="userid">ID</label>
+    <input id="userid" name="userid" type="text" placeholder="Enter your ID" required>
+
+    <label for="pw">Password</label>
+    <input id="pw" name="pw" type="password" placeholder="Enter your password" required>
+
+    <button type="submit">Login</button>
+
+    <div class="signup-link">
+      Don't have an account? 
+      <a href="{{ url_for('view_pg7_signin') }}">Create one</a>
+    </div>
+  </form>
+</div>
+{% endblock section %}
+</section>
+</body>
+</html>

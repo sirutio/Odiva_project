@@ -1,0 +1,161 @@
+/* 공통(from register review) */
+:root{
+    --bg:#f6f7f9;
+    --surface:#fff;
+    --muted:#6b7280;
+    --text:#1f2937;
+    --border:#e5e7eb;
+    --primary:rgb(0,70,42);
+    --radius:16px;
+    --shadow:0 8px 24px rgba(0,0,0,.06);
+}
+body{
+    margin : 0;
+    font : 16px/1.5 "Pretendard","Noto Sans KR",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    color : var(--text);
+    background : var(--bg);
+}
+
+
+/* 네비게이션 바 */
+ nav img {
+    display: block;
+    float: left;
+    padding: 2px 16px
+}
+.navbar {
+  background-color: rgb(0,70,42);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 60px;
+}
+.logo {
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 24px;
+  font-weight: 500;
+}
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* 네비게이션 바 제외 전체 적용 */
+main {
+    padding: 30px 20%;
+}
+
+/* 뒤로가기/타이틀 부분 */
+.back{
+    display : inline-block;
+    margin-bottom : 3px;
+    color : var(--muted);
+    text-decoration:none;
+    font-size : 14px;
+}
+.back:hover{
+    text-decoration:underline
+}
+.add{
+    font-size : 22px;
+    margin : 0 0 22px
+}
+
+/* product/seller information 폼 형식 */
+form {
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px;
+    margin:18px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.title {
+    margin-top: 35px;
+}
+label, legend { 
+    display : block;
+    font-size : 14px;
+    color : #374151;
+    margin : 0px 0 6px;
+    font-weight: 600;
+    
+}
+input[type="text"],input[type="email"],textarea, select{
+    width:100%;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:8px 12px;
+    background:#fafafa;
+    outline:none;
+    box-sizing: border-box;
+}
+input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus{
+    border-color:#c7c9d1;background:#fff
+}
+textarea{
+    height:150px;          /* textarea 기본 높이 */
+    resize:vertical;       /* 크기 조절 허용: 수직만 */
+}
+
+/* 파일 업로더 (시각화) */
+.uploader{
+    border:none;
+    padding:0;
+    margin-top:8px
+}
+.uploader legend{
+    font-size:14px;
+    color:#374151;
+    margin-bottom:8px
+}
+.uploader input[type="file"]{
+    position:absolute;
+    opacity:0;
+    pointer-events:none
+}
+.dropzone{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;
+  width:100%; height:120px;
+  border:2px dashed #cdd3db; border-radius:14px; background:#fbfbfd;
+  color:#6b7280; cursor:pointer;
+}
+.dropzone:hover{
+    background:#f4f6fb
+}
+.drop-hint{
+    font-size:14px
+}
+.sub{
+    font-size:12px;
+    color:#9ca3af
+}
+
+
+.col1 {width: 100%}
+.col2 {width: calc(50% - 15px)}
+.col3 {width: calc(33.333% - 20px)}
+
+
+
+footer {
+    padding-bottom: 100px;
+    text-align: center;
+}
+
+button{
+    border:1px solid var(--border); background:#f5f5f5; color:#111;
+    padding:10px 14px; border-radius:12px; cursor:pointer;
+    background:var(--primary);border-color:var(--primary);color:#fff
+}
+button:hover{background:#eee}
+button:hover{filter:brightness(.96)}

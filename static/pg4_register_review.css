@@ -1,0 +1,260 @@
+/* ===== 디자인 토큰 ===== */
+:root{
+  --bg:#f6f7f9;
+  --surface:#fff;
+  --muted:#6b7280;
+  --text:#1f2937;
+  --border:#e5e7eb;
+  --primary:rgb(0,70,42);
+  --radius:16px;
+  --shadow:0 8px 24px rgba(0,0,0,.06);
+
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font:16px/1.5 "Pretendard","Noto Sans KR",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
+
+/* ===== 공통 레이아웃 ===== */
+.container{
+  max-width: none;              
+  padding: 0;                      
+}
+
+nav img {
+    display: block;
+    float: left;
+    padding: 2px 16px
+}
+
+.navbar {
+  background-color: rgb(0,70,42);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 60px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 24px;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+.back{
+    display : inline-block;
+    margin-bottom : 3px;
+    color : var(--muted);
+    text-decoration:none;
+    font-size : 14px;
+}
+.back:hover{
+    text-decoration:underline
+}
+
+.page{padding: 30px 20%}
+.backlink{display:inline-block;margin-bottom:6px;color:var(--muted);text-decoration:none}
+.backlink:hover{text-decoration:underline}
+.page-title{font-size:22px;margin:0 0 18px}
+
+/* ===== 카드 ===== */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px;
+  margin:18px 0;
+}
+.card-title{font-size:18px;margin:0 0 18px}
+
+/* ===== 폼 그리드 ===== */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.col .label{display:block;font-size:14px;color:#374151;margin:0px 0 6px}
+input[type="text"],input[type="email"], input[type="tel"],textarea{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 12px;
+  background:#fafafa;
+  outline:none;
+}
+input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus{border-color:#c7c9d1;background:#fff}
+textarea{
+  height:420px;          /* textarea 기본 높이 */
+  resize:vertical;       /* 크기 조절 허용: 수직만 */
+}
+
+/* 썸네일 & 평점 */
+.product-thumb{width:90%;height:260px;border:1px dashed var(--border);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;background:#f3f4f6;margin:10px 0px 20px 20px}
+/* 썸네일 내부 요소 */
+.product-thumb{ position:relative; overflow:hidden; }
+.product-thumb img{
+  width:100%; height:100%;
+  object-fit:cover;
+  display:none;          /* 처음엔 숨김 */
+}
+.product-thumb .placeholder{
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:0 12px;
+  color:#9aa3ad; font-size:14px;
+}
+
+/* 이미지가 들어오면 문구 숨기고 이미지만 보이기 */
+.product-thumb.has-img .placeholder{ display:none; }
+.product-thumb.has-img img{ display:block; }
+
+.product-thumb img{width:60px;height:60px;opacity:.7}
+.rating{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
+.stars{letter-spacing:1px;color:rgb(242,115,103);font-size:18px}
+
+
+/* 파일 업로더 (시각화) */
+.uploader{border:none;padding:0;margin-top:8px}
+.uploader legend{font-size:14px;color:#374151;margin-bottom:8px}
+.uploader input[type="file"]{position:absolute;opacity:0;pointer-events:none}
+.dropzone{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;
+  width:100%; height:120px;
+  border:2px dashed #cdd3db; border-radius:14px; background:#fbfbfd;
+  color:#6b7280; cursor:pointer;
+}
+.dropzone:hover{background:#f4f6fb}
+.drop-hint{font-size:14px}
+.sub{font-size:12px;color:#9ca3af}
+
+/* 버튼 */
+.actions{display:flex;gap:10px;margin-top:16px;  justify-content:flex-end; }
+.btn{
+  border:1px solid var(--border); background:#f5f5f5; color:#111;
+  padding:10px 14px; border-radius:12px; cursor:pointer;
+}
+.btn:hover{background:#eee}
+.btn.ghost{background:transparent}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.primary:hover{filter:brightness(.96)}
+
+
+
+/* 반응형 */
+@media (max-width: 760px){
+  .grid{grid-template-columns:1fr}
+  .menu{display:none}
+}
+
+label[for="productName"]{
+      font-weight: 700; 
+      
+}
+
+label[for="ratingStars"]{
+  font-weight: 700; 
+
+}
+
+label[for="reviewBody"]{
+    font-weight:700;
+}
+
+/* 리뷰 제목 라벨 */
+label[for="reviewTitle"]{
+  font-weight: 700;
+}
+
+/* '사진 및 파일 첨부'는 legend 요소 */
+.uploader legend{
+  font-weight: 700;
+}
+
+.one{margin-top:30px;}
+.two{margin-top:15px;}
+
+/* === 별점: 접근성+인터랙션 === */
+.rating{
+  display:inline-flex;
+  flex-direction:row-reverse; /* 5→1 역순 시각적으로 오른쪽부터 채움 */
+  gap:6px;
+  border:0; padding:0; margin:8px 0 12px;
+  margin-left:60%;
+}
+.rating input{
+  position:absolute;
+  opacity:0;
+  width:1px; height:1px;
+  margin:0; padding:0;
+}
+.rating label{
+  cursor:pointer;
+  font-size:28px; line-height:1;
+  color:#d1d5db;                 /* 빈 별 */
+  transition:transform .08s ease, color .08s ease;
+}
+.rating label:hover{ transform:scale(1.05); }
+/* 체크된 별과 그 '왼쪽'(시각적 오른쪽) 모두 채우기 */
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label{
+  color:rgb(242,115,103);                 /* 채워진 별 */
+}
+/* 키보드 포커스 테두리 */
+.rating input:focus + label{
+  outline:2px solid #6366f1; outline-offset:2px; border-radius:6px;
+}
+
+
+/* Seller Information 폼 레이아웃 */
+.form-grid.two{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:14px;
+}
+
+.f .label{
+  display:block;
+  font-size:14px;
+  color:#374151;
+  margin:12px 0 6px;
+}
+
+/*폰트 맞추기*/
+input::placeholder,
+textarea::placeholder{
+  font-family: inherit;  
+  font-size: 14px;       
+  font-weight: 400;
+  color: #9aa3ad;        
+  opacity: 1;             
+}
+
+
+input, textarea{
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+
+/* 좁은 화면에서 한 줄 배치 */
+@media (max-width:760px){
+  .form-grid.two{ grid-template-columns:1fr; }
+}
+

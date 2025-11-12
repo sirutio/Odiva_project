@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* Ewha Green */
+:root {
+  --ewha-green: #1E4D2B;
+}
+
+    nav img {
+        display: block;
+        float: left;
+        padding: 2px 16px
+    }
+
+/* 상단 네비게이션 */
+.navbar {
+  background-color: rgb(0,70,42);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 60px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 24px;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* 검색창 */
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f6f7f9;
+  padding: 16px 60px;
+}
+
+.search-section input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.search-btn {
+  background-color: var(--ewha-green);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-btn {
+  background-color: #ccc;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* 본문 */
+body {
+  background-color: #f6f6f6;
+}
+
+/* 상품 카드 그리드 */
+.product-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  padding: 40px 80px;
+}
+
+/* 개별 카드 */
+.product-card {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card img,
+.img-placeholder {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  background-color: #f1f1f1;
+  object-fit: contain;
+}
+
+.product-card h3 {
+  margin-top: 15px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.desc {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* 하단 버튼 영역 */
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+}
+
+.rating {
+  background-color: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.cart-btn {
+  background-color: var(--ewha-green);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.cart-btn:hover {
+  background-color: #276f3b;
+}
+
+/* 반응형 (태블릿 이하) */
+@media (max-width: 1024px) {
+  .product-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .product-container {
+    grid-template-columns: 1fr;
+  }
+}

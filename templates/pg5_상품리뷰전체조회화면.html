@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EwhaMarket - 리뷰 전체보기</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='pg5_상품리뷰전체조회화면.css') }}">
+</head>
+<body>
+<section>
+      {% extends "index.html" %}
+      {% block section %}
+      <!-- 제목 및 필터 -->
+  <section class="review-header">
+    <h1>리뷰 전체보기 <span>(1,254)</span></h1>
+
+    <div class="filter-tags">
+      <button>#전자기기</button>
+      <button>#화장품</button>
+      <button>#도서</button>
+      <button>#맛집</button>
+    </div>
+
+    <div class="search-sort">
+      <div class="search-box">
+        <input type="text" placeholder="제품명/리뷰 키워드로 검색">
+        <button class="search-btn">🔍</button>
+      </div>
+      <select class="sort-select">
+        <option>정렬 최신순</option>
+        <option>별점 높은순</option>
+        <option>리뷰 많은순</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- 리뷰 카드 목록 -->
+  <main class="review-container">
+    <div class="review-card">
+      <div class="img-placeholder"></div>
+      <h3>마녀공장</h3>
+      <p class="product">퓨어 소이빈 클렌징 밀크</p>
+      <div class="rating">★★★★★ <span>4.87(11)</span></div>
+      <p class="date">2025-10-17</p>
+    </div>
+
+    <div class="review-card">
+      <div class="img-placeholder"></div>
+      <h3>Apple</h3>
+      <p class="product">아이패드 에어 4</p>
+      <div class="rating">★★★★★ <span>5.00(7)</span></div>
+      <p class="date">2025-10-17</p>
+    </div>
+
+    <div class="review-card">
+      <div class="img-placeholder"></div>
+      <h3>브랜드명</h3>
+      <p class="product">제품명</p>
+      <div class="rating">★★★★★ <span>4.55(9)</span></div>
+      <p class="date">2025-10-17</p>
+    </div>
+
+    <div class="review-card">
+      <div class="img-placeholder"></div>
+      <h3>브랜드명</h3>
+      <p class="product">제품명</p>
+      <div class="rating">★★★★★ <span>4.4(34)</span></div>
+      <p class="date">2025-10-17</p>
+    </div>
+
+    <div class="review-card">
+      <div class="img-placeholder"></div>
+      <h3>브랜드명</h3>
+      <p class="product">제품명</p>
+      <div class="rating">★★★★★ <span>4.9(16)</span></div>
+      <p class="date">2025-10-17</p>
+    </div>
+
+    <div class="review-card">
+      <div class="img-placeholder"></div>
+      <h3>브랜드명</h3>
+      <p class="product">제품명</p>
+      <div class="rating">★★★★★ <span>5.00</span></div>
+      <p class="date">2025-10-17</p>
+    </div>
+  </main>
+    
+      {% endblock section %}
+</section> 
+</body>
+</html>

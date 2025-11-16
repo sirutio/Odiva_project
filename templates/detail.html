@@ -1,0 +1,18 @@
+<p>
+    item name is <b>{{name}}</b> and address is {{data.addr}}
+</p>
+
+<p>
+    item tel. is {{data.phone}} and category is {{data.category}}
+</p>
+
+<p>
+    For payment, the credit card is
+    {% if data['card'] == "Y" %}
+        accepted!
+    {% endif %}
+    {% if data['card'] == "N" %}
+        NOT accepted!
+    {% endif %}
+</p>
+<img src="../../static/images/{{data.img_path}}" width=140 height=200>

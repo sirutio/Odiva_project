@@ -51,3 +51,28 @@ class DBhandler:
             if value.get('id') == id_string:
                 return False
         return True
+    
+    def find_user(self, id_, pw_):
+        users = self.db.child("user").get()
+        target_value=[]
+        for res in users.each():
+            value = res.val()
+
+        if value['id'] == id_ and value['pw'] == pw_:
+            return True
+        
+        return False
+    
+    def get_items(self):
+        items = self.db.child("item").get().val()
+        return items if items else {} # 오류 방지 위해 items가 None이면 {} 반환하도록 함.
+
+    def get_item_byname(self, name):
+        items = self.db.child("item").get()
+        target_value=""
+        print("###########",name)
+        for res in items.each():
+            key_value = res.key()
+            if key_value == name:
+                target_value=res.val()
+        return target_value

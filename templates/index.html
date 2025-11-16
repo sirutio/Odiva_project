@@ -13,7 +13,11 @@
         <a href="">EwhaMarket</a>
     </div>
     <ul class="navbar__menu">
+        {% if session['id'] %}
+        <li><a href="/logout"><b>{{session['id']}}님 반갑습니다!</b> logout</a></li>
+        {% else %}
         <li><a href="/login">login</a></li>
+        {% endif %}
         <li><a href="/list">List</a></li>
         <li><a href="/review">Review</a></li>
         <li><a href="/reg_items">Register Items</a></li>

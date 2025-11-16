@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from database import DBhandler
+import hashlib
 import sys
 
 application = Flask(__name__)
+application.config["SECRET_KEY"] = "helloosp"
 
 DB = DBhandler()
 
@@ -21,6 +23,23 @@ def reg_item():
 @application.route("/reg_reviews")
 def reg_review():
   return render_template("reg_reviews.html")
+@application.route("/login")
+def login():
+  return render_template("login.html")
+@application.route("/signup")
+def signup():
+  return render_template("signup.html")
+
+@application.route("/signup_post", methods=['POST'])
+def register_user():
+  data=request.form
+  pw=request.form['pw']
+  pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+  if DB.insert_user(data,pw_hash):
+    return render_template("login.html")
+  else:
+    flash("user id already exist!")
+    return render_template("signup.html")
 
 # GET 방식: 터미널과 주소에 모든 특징이 표현되나 이러한 이유로 파라미터 길이에 제한 O
 @application.route("/submit_item")

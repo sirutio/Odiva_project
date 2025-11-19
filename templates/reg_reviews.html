@@ -1,16 +1,22 @@
 {% extends "index.html" %}
 
 {% block section %}
-    <h2>상품 후기 등록 화면 입니다.</h2>
-    <p>상품에 대한 후기를 작성하기 위한 입력 폼을 여기에 구성합니다.</p>
-    
-    <form action="/submit_review" method="POST">
-        <label for="review_title">후기 제목:</label>
-        <input type="text" id="review_title" name="review_title" required><br><br>
-        
-        <label for="review_content">후기 내용:</label>
-        <textarea id="review_content" name="review_content" rows="4" required></textarea><br><br>
-        
-        <input type="submit" value="후기 등록">
+    <form class="mb-3" name="myform" id="myform" method="post" action="/reg_review" enctype="multipart/form-data">
+        상품: <input type="text" name="name" id="name" value="{{name}}"><br><br>
+        제목: <input type="text" name="title" id="title" value=""><br><br>
+        <fieldset>
+            <span class="text-bold">별점을 선택해주세요</span>
+            <input type="radio" name="reviewStar" value="5" id="rate1"><label for="rate1">★</label>
+            <input type="radio" name="reviewStar" value="4" id="rate2"><label for="rate2">★</label>
+            <input type="radio" name="reviewStar" value="3" id="rate3"><label for="rate3">★</label>
+            <input type="radio" name="reviewStar" value="2" id="rate4"><label for="rate4">★</label>
+            <input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
+        </fieldset>
+        <div>
+        <textarea class="col-auto form-control" type="text" name="reviewContents" placeholder="리뷰를 남겨주세요 감사합니다!"></textarea>
+        </div>
+        Review Image upload :
+        <input type="file" name="file" /><br><br>
+        <input type="submit" value="Submit!">
     </form>
 {% endblock section %}

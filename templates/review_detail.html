@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+
+{% block section %}
+
+<h2>✨ 리뷰 상세 정보</h2>
+<p>리뷰 대상 상품: <b>{{name}}</b></p>
+<p>리뷰 제목: **{{data.title}}**</p>
+<p>별점: **{{data.rate}}점** (5점 만점)</p>
+
+<p>리뷰 내용: </p>
+
+<div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">{{data.review}}</div>
+
+{% if data.img_path %}
+    <img src="../../static/images/{{data.img_path}}" width=240 height=200 alt="리뷰 이미지">
+{% endif %}
+
+<br><br>
+<button onclick="location.href='/review';">전체 리뷰 목록으로 돌아가기</button>
+
+{% endblock %}

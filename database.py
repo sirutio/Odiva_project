@@ -76,3 +76,22 @@ class DBhandler:
             if key_value == name:
                 target_value=res.val()
         return target_value
+    
+    def reg_review(self, data, img_path):
+        review_info ={
+        "item_name": data['name'],
+        "title": data['title'],
+        "rate": data['reviewStar'],
+        "review": data['reviewContents'],
+        "img_path": img_path
+        }
+        self.db.child("review").push(review_info)
+        return True
+    
+    def get_reviews(self):
+        reviews = self.db.child("review").get().val()
+        return reviews
+    
+    def get_review_byname(self, name):
+        data = self.db.child("review").child(name).get().val()
+        return data

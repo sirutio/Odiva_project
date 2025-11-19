@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from database import DBhandler
 import hashlib
 import sys
+import os
 
 application = Flask(__name__)
 application.config["SECRET_KEY"] = "helloosp"
@@ -54,16 +55,70 @@ def view_item_detail(name):
   print("####data:",data)
   return render_template("detail.html", name=name, data=data)
 
-
+# review
 @application.route("/review")
 def view_review():
-  return render_template("review.html")
+  page = request.args.get("page", 0, type=int)
+  per_page=6 # item count to display per page
+  per_row=3 # item count to display per row
+  row_count=int(per_page/per_row)
+  start_idx=per_page*page
+  end_idx=per_page*(page+1)
+  data = DB.get_reviews() #read the table
+  item_counts = len(data)
+  data = dict(list(data.items())[start_idx:end_idx])
+  tot_count = len(data)
+
+  rows = {}
+
+  for i in range(row_count): #last row
+    if (i == row_count-1) and (tot_count%per_row != 0):
+      rows[f'data_{i}'] = dict(list(data.items())[i*per_row:])
+    else:
+      rows[f'data_{i}'] = dict(list(data.items())[i*per_row:(i+1)*per_row])
+  return render_template("review.html",
+  datas=data.items(),
+  row1=rows.get('data_0', {}).items(),
+  row2=rows.get('data_1', {}).items(),
+  limit=per_page,
+  page=page,
+  page_count=int((item_counts/per_page)+1),
+  total=item_counts)
+
+@application.route("/view_review_detail/<name>/")
+def view_review_detail(name):
+  print("###review_name:", name)
+  data = DB.get_review_byname(str(name)) 
+  print("####review_data:", data)
+  return render_template("review_detail.html", name=name, data=data)
+
+@application.route("/reg_review_init/<name>/")
+def reg_review_init(name):
+  return render_template("reg_reviews.html", name=name)
+
+@application.route("/reg_review", methods=['POST'])
+def reg_review():
+  data=request.form
+  image_file=request.files["file"]
+  if image_file.filename != '':
+    filename = image_file.filename
+    save_path = os.path.join(application.root_path, 'static/images', filename)
+    image_file.save(save_path)
+  else:
+    filename = None
+  DB.reg_review(data, filename)
+  return redirect(url_for('view_review'))
+
+
+
+
+# reg_items
 @application.route("/reg_items")
 def reg_item():
   return render_template("reg_items.html")
-@application.route("/reg_reviews")
-def reg_review():
-  return render_template("reg_reviews.html")
+
+
+
 
 # login
 @application.route("/login")

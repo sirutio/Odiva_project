@@ -181,3 +181,12 @@ section {
     background-color: white;
     border-radius: 8px;
 }
+
+/* 5. 좋아요 기능 관련 */
+#heart {
+    color:grey;
+    font-size: 30px;
+}
+#heart.red {
+    color: red;
+}

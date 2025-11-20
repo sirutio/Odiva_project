@@ -1,0 +1,163 @@
+{% extends "index.html" %}
+
+{% block style %}
+<style>
+    /* --- 변수 및 기본 설정 --- */
+    :root {
+        --bg-color: #fdfdfd;
+        --box-bg: #f8f9fa;
+        --star-color: #fdd835; /* 별 색상 (노란색) */
+    }
+
+    /* --- 레이아웃 --- */
+    .detail-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px 20px;
+    }
+
+    .page-section {
+        background-color: #fff;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eee;
+    }
+
+    /* --- 헤더 영역 (제목, 별점) --- */
+    .review-header {
+        text-align: center;
+        margin-bottom: 40px;
+        border-bottom: 2px solid #f1f1f1;
+        padding-bottom: 30px;
+    }
+
+    .review-title {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 15px;
+        color: #2c3e50;
+    }
+
+    .stars {
+        color: var(--star-color);
+        font-size: 40px; /* 별 크기 */
+        letter-spacing: 5px;
+        margin-bottom: 10px;
+        line-height: 1;
+    }
+
+    .rating-score {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .review-meta {
+        font-size: 16px;
+        color: #777;
+        background-color: #f9f9f9;
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+    }
+
+    /* --- 본문 내용 박스 --- */
+    .review-content-box {
+        background-color: var(--box-bg);
+        border: 1px solid #eee;
+        border-radius: 16px;
+        padding: 40px;
+        text-align: left;
+        font-size: 18px; /* 본문 글씨 키움 */
+        line-height: 1.8;
+        color: #333;
+        white-space: pre-wrap; /* 줄바꿈 유지 */
+    }
+
+    /* 리뷰 이미지 */
+    .review-img-wrapper {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .review-img {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border: 1px solid #ddd;
+    }
+
+    /* --- 하단 버튼 --- */
+    .btn-wrapper {
+        margin-top: 40px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .btn {
+        padding: 14px 30px;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background 0.2s;
+        cursor: pointer;
+        border: none;
+    }
+
+    /* 목록으로 버튼 */
+    .btn-back {
+        background-color: #333;
+        color: white;
+    }
+    .btn-back:hover { background-color: #555; }
+
+    /* 해당 상품 보러가기 버튼 */
+    .btn-product {
+        background-color: rgb(0, 70, 42);
+        color: white;
+    }
+    .btn-product:hover { background-color: #0e3a22; }
+
+</style>
+{% endblock style %}
+
+{% block section %}
+<div class="detail-container">
+    <section class="page-section">
+        
+        <div class="review-header">
+            <h1 class="review-title">"{{ data.title }}"</h1>
+            
+            <div class="stars">
+                {% for i in range(data.rate|int) %}★{% endfor %}
+            </div>
+            
+            <p class="rating-score">{{ data.rate }} / 5.0</p>
+            
+            <div class="review-meta">
+                리뷰 대상 상품: <b>{{ data.item_name }}</b>
+            </div>
+        </div>
+
+        <div class="review-content-box">
+            {{ data.review }}
+
+            {% if data.img_path %}
+                <div class="review-img-wrapper">
+                    <img src="{{ url_for('static', filename='images/' + data.img_path) }}" class="review-img" alt="리뷰 이미지">
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="btn-wrapper">
+            <button class="btn btn-back" onclick="location.href='/review';">목록으로 돌아가기</button>
+            <a href="{{ url_for('view_item_detail', name=data.item_name) }}" class="btn btn-product">이 상품 보러가기</a>
+    </section>
+</div>
+{% endblock section %}

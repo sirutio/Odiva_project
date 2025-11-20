@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from database import DBhandler
 import hashlib
+import math
 import sys
 import os
 
@@ -16,55 +17,66 @@ def hello():
 
 # list 화면 구현
 @application.route("/list")
-def view_list(): # 2 by 3
-  page = request.args.get("page", 0, type=int)
-  per_page=6 # item count to display per page
-  per_row=3 # item count to display per row
-  row_count=int(per_page/per_row)
-  start_idx=per_page*page
-  end_idx=per_page*(page+1)
+def view_list():
+    # 1. 페이지 정보 가져오기 (기본값 0)
+    page = request.args.get("page", 0, type=int)
+    per_page = 8  # 한 페이지당 8개
+    per_row = 4   # 한 줄당 4개
 
-  data = DB.get_items() # read the table
-  item_counts = len(data)
-
-  data = dict(list(data.items())[start_idx:end_idx])
-  tot_count = len(data)
-
-  rows = {} # locals 사용 안 하게 수정함(locals()로 인해 오류 발생)
+    # 2. 전체 데이터 가져오기
+    all_data = DB.get_items() 
+    item_counts = len(all_data)
     
-  for i in range(row_count): 
-    if (i == row_count-1) and (tot_count%per_row != 0):
-      rows[i] = dict(list(data.items())[i*per_row:])
-    else:
-      rows[i] = dict(list(data.items())[i*per_row:(i+1)*per_row])
+    # 3. 전체 페이지 수 계산 (math.ceil 사용하여 올림 처리)
+    # 예: 9개 아이템이면 2페이지가 되어야 함 (9/8 = 1.125 -> 2)
+    page_count = math.ceil(item_counts / per_page)
 
-  return render_template(
-    "list.html",
-    datas=data.items(),
-    row1=rows.get(0, {}).items(),
-    row2=rows.get(1, {}).items(),
-    limit=per_page,
-    page=page,
-    page_count=int((item_counts/per_page)+1),
-    total=item_counts)
+    # 4. 현재 페이지에 보여줄 데이터만 자르기 (Slicing)
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+    
+    # 딕셔너리를 리스트로 변환 후 슬라이싱하고 다시 딕셔너리로 변환
+    # (데이터가 없으면 빈 딕셔너리가 됩니다)
+    current_page_data = dict(list(all_data.items())[start_idx:end_idx])
+
+    # 5. row1(첫째 줄), row2(둘째 줄) 데이터 나누기
+    # current_page_data에서 앞 4개는 row1, 뒤 4개는 row2
+    current_items = list(current_page_data.items())
+    
+    row1 = current_items[:per_row]        # 0번부터 3번까지
+    row2 = current_items[per_row:]        # 4번부터 끝까지
+
+    # 6. 템플릿 렌더링
+    return render_template(
+        "2_list.html",
+        total=item_counts,
+        page=page,
+        page_count=page_count,
+        row1=row1,
+        row2=row2
+    )
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
   print("###name:",name)
   data = DB.get_item_byname(str(name))
   print("####data:",data)
-  return render_template("detail.html", name=name, data=data)
+  return render_template("3_detail.html", name=name, data=data)
 
 # review
 @application.route("/review")
 def view_review():
   page = request.args.get("page", 0, type=int)
-  per_page=6 # item count to display per page
-  per_row=3 # item count to display per row
+  per_page = 6  # 한 페이지에 6개 (3개 x 2줄)
+  per_row = 3   # 한 줄에 3개
   row_count=int(per_page/per_row)
   start_idx=per_page*page
   end_idx=per_page*(page+1)
+  
   data = DB.get_reviews() #read the table
+  if data is None:
+        data = {}
+
   item_counts = len(data)
   data = dict(list(data.items())[start_idx:end_idx])
   tot_count = len(data)
@@ -76,7 +88,7 @@ def view_review():
       rows[f'data_{i}'] = dict(list(data.items())[i*per_row:])
     else:
       rows[f'data_{i}'] = dict(list(data.items())[i*per_row:(i+1)*per_row])
-  return render_template("review.html",
+  return render_template("5_review.html",
   datas=data.items(),
   row1=rows.get('data_0', {}).items(),
   row2=rows.get('data_1', {}).items(),
@@ -90,11 +102,11 @@ def view_review_detail(name):
   print("###review_name:", name)
   data = DB.get_review_byname(str(name)) 
   print("####review_data:", data)
-  return render_template("review_detail.html", name=name, data=data)
+  return render_template("6_review_detail.html", name=name, data=data)
 
 @application.route("/reg_review_init/<name>/")
 def reg_review_init(name):
-  return render_template("reg_reviews.html", name=name)
+  return render_template("4_reg_reviews.html", name=name)
 
 @application.route("/reg_review", methods=['POST'])
 def reg_review():
@@ -115,7 +127,7 @@ def reg_review():
 # reg_items
 @application.route("/reg_items")
 def reg_item():
-  return render_template("reg_items.html")
+  return render_template("1_reg_items.html")
 
 
 
@@ -123,7 +135,7 @@ def reg_item():
 # login
 @application.route("/login")
 def login():
-  return render_template("login.html")
+  return render_template("8_login.html")
 
 @application.route("/login_confirm", methods=['POST'])
 def login_user():
@@ -132,16 +144,21 @@ def login_user():
   pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
   if DB.find_user(id_,pw_hash):
     session['id']=id_
+    user_info = DB.get_user(id_) 
+    if user_info and 'nickname' in user_info:
+      session['nickname'] = user_info['nickname']
+    else:
+      session['nickname'] = id_
     return redirect(url_for('view_list'))
   else:
     flash("Wrong ID or PW!")
-    return render_template("login.html")
+    return render_template("8_login.html")
 
 
 # signup
 @application.route("/signup")
 def signup():
-  return render_template("signup.html")
+  return render_template("7_signup.html")
 
 @application.route("/signup_post", methods=['POST'])
 def register_user():
@@ -149,10 +166,10 @@ def register_user():
   pw=request.form['pw']
   pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
   if DB.insert_user(data,pw_hash):
-    return render_template("login.html")
+    return render_template("8_login.html")
   else:
     flash("user id already exist!")
-    return render_template("signup.html")
+    return render_template("7_signup.html")
   
 @application.route("/logout")
 def logout_user():

@@ -1,35 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>이화마켓 - EwhaMarket</title>
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    {% block style %}
+    {% endblock style %}
+    
     <script src="{{ url_for('static', filename='main.js') }}" defer></script>
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar__logo">
-        <a href="">EwhaMarket</a>
-    </div>
-    <ul class="navbar__menu">
-        {% if session['id'] %}
-        <li><a href="/logout"><b>{{session['id']}}님 반갑습니다!</b> logout</a></li>
-        {% else %}
-        <li><a href="/login">login</a></li>
-        {% endif %}
-        <li><a href="/list">List</a></li>
-        <li><a href="/review">Review</a></li>
-        <li><a href="/reg_items">Register Items</a></li>
-        <li><a href="/reg_reviews">Register Reviews</a></li>
-    </ul>
-    <a href="#" class="navbar__toogleBtn">
-        <i class="fas fa-bars"></i>
-    </a>
-    </nav>
-<section>
-    {% block section %}
-    {% endblock section %}
-</section>
+        <div class="logo">
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Ewha Market" class="logo-img">
+            </a>
+        </div>
+        
+        <ul class="nav-links">
+            {% if session['id'] %}
+                <li class="user-menu">
+                    <span class="user-name">
+                        <b>{{ session.get('nickname', session['id']) }}</b>님
+                        <i class="arrow-down"></i> 
+                    </span>
+                    
+                    <div class="user-menu-content">
+                        <a href="#" onclick="alert('마이페이지 기능은 준비중입니다! 🛠️'); return false;">
+                            마이페이지 <span>👤</span>
+                        </a>
+                        <a href="#" onclick="alert('결제 내역 기능은 준비중입니다! 💳'); return false;">
+                            결제 내역 <span>📄</span>
+                        </a>
+                        
+                        <div class="menu-divider"></div>
+                        
+                        <a href="/logout">
+                            로그아웃 <span>🚪</span>
+                        </a>
+                    </div>
+                </li>
+            {% else %}
+                <li><a href="/login">로그인</a></li>
+            {% endif %}
+            
+            <li><a href="/list">상품목록</a></li>
+            <li><a href="/review">리뷰보기</a></li>
+            <li><a href="/reg_items">상품등록</a></li>
+        </ul>
+    </nav> <section>
+        {% block section %}
+        {% endblock section %}
+    </section>
 </body>
 </html>

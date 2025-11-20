@@ -1,0 +1,135 @@
+{% extends "index.html" %}
+
+{% block style %}
+<style>
+    /* --- 로그인 페이지 전용 스타일 --- */
+    
+    .login-wrapper {
+        font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+        display: flex;
+        justify-content: center;
+        padding-top: 100px; /* 상단 여백 증가 */
+        padding-bottom: 100px;
+    }
+
+    .form-container {
+        width: 500px; /* 너비 확대 (360px -> 500px) */
+        padding: 60px 50px; /* 내부 여백 확대 */
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        border-radius: 20px; /* 둥글기 증가 */
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* 그림자 진하게 */
+    }
+
+    .form-container h2 {
+        margin-bottom: 40px;
+        font-size: 32px; /* 제목 크기 확대 */
+        font-weight: 750;
+        color: #222;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+        text-align: left;
+    }
+
+    label {
+        display: block;
+        font-size: 18px; /* 라벨 크기 확대 */
+        margin-bottom: 10px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    /* 입력창 스타일 (둥근 형태) */
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 16px 24px; /* 입력창 높이 확대 */
+        border: 2px solid rgba(0, 0, 0, 0.18); /* 테두리 약간 두껍게 */
+        border-radius: 30px; /* 더 둥글게 */
+        outline: none;
+        font-size: 16px; /* 입력 글씨 확대 */
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        border-color: rgb(0, 70, 42);
+    }
+
+    /* 로그인 버튼 스타일 */
+    .login-btn {
+        width: 100%;
+        padding: 16px; /* 버튼 높이 확대 */
+        border: none;
+        border-radius: 30px;
+        background-color: #004d2c;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 20px; /* 버튼 글씨 확대 */
+        transition: background-color 0.2s;
+    }
+
+    .login-btn:hover {
+        background-color: #036636;
+    }
+
+    /* 회원가입 링크 영역 */
+    .signup-link {
+        margin-top: 30px;
+        font-size: 16px; /* 글씨 확대 */
+        color: #666;
+    }
+
+    .signup-link a {
+        color: #004d2c;
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 8px;
+    }
+    
+    .signup-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock style %}
+
+{% block section %}
+
+{% with mesg = get_flashed_messages() %}
+    {% if mesg != [] %}
+        <script>alert("{{ mesg[0] }}")</script>
+    {% endif %}
+{% endwith %}
+
+<div class="login-wrapper">
+    <div class="form-container">
+        <h2>로그인</h2>
+        
+        <form action="/login_confirm" method="post">
+            <div class="form-group">
+                <label for="userid">아이디</label>
+                <input type="text" name="id" id="userid" placeholder="아이디를 입력하세요" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pw">비밀번호</label>
+                <input type="password" name="pw" id="pw" placeholder="비밀번호를 입력하세요" required>
+            </div>
+
+            <button type="submit" class="login-btn">로그인</button>
+
+            <div class="signup-link">
+                계정이 없으신가요? 
+                <a href="/signup">회원가입</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock section %}

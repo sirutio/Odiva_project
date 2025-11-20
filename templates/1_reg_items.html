@@ -1,0 +1,259 @@
+{% extends "index.html" %}
+
+{% block style %}
+<style>
+    /* --- 변수 설정 --- */
+    :root {
+        --bg: #f6f7f9;
+        --surface: #fff;
+        --border: #e5e7eb;
+        --primary: rgb(0, 70, 42);
+        --radius: 16px;
+        --shadow: 0 8px 24px rgba(0, 0, 0, .06);
+    }
+
+    /* --- 메인 레이아웃 (사이즈 UP) --- */
+    .main-container {
+        max-width: 1000px; /* 너비를 800px -> 1000px로 확대 */
+        margin: 0 auto;
+        padding: 60px 20px; /* 상하 여백도 좀 더 넉넉하게 */
+    }
+
+    .page-title {
+        font-size: 32px; /* 제목 폰트 키움 */
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #1f2937;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 15px;
+        color: #6b7280;
+        font-size: 16px; /* 링크 폰트 키움 */
+        text-decoration: none;
+    }
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    /* --- 폼(Form) 카드 스타일 --- */
+    form {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 50px; /* 내부 여백 확대 */
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;       /* 요소 간 간격 확대 (20px -> 30px) */
+    }
+
+    /* --- 입력 요소 스타일 (사이즈 UP) --- */
+    label {
+        display: block;
+        font-size: 16px; /* 라벨 폰트 키움 */
+        color: #374151;
+        margin-bottom: 10px; /* 라벨과 입력창 사이 간격 확대 */
+        font-weight: 700;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px; /* 입력창 내부 여백을 늘려 높이를 키움 */
+        background: #fafafa;
+        outline: none;
+        box-sizing: border-box;
+        font-size: 16px; /* 입력 글씨 크기 키움 */
+    }
+
+    input:focus, select:focus {
+        border-color: #c7c9d1;
+        background: #fff;
+    }
+
+    /* --- 그리드 시스템 (간격 변경에 따른 계산 수정) --- */
+    /* gap이 30px로 늘어났으므로 계산식 수정 */
+    .col1 { width: 100%; }
+    .col2 { width: calc(50% - 15px); } 
+    .col3 { width: calc(33.33% - 20px); }
+
+    @media (max-width: 768px) {
+        .col2, .col3 { width: 100%; }
+        .main-container { padding: 20px; }
+        form { padding: 20px; }
+    }
+
+    /* --- 파일 업로드 --- */
+    .uploader {
+        border: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    
+    .file-input-wrapper {
+        position: relative;
+        width: 100%;
+        height: 150px; /* 박스 높이 키움 */
+        border: 2px dashed #cdd3db;
+        border-radius: 14px;
+        background: #fbfbfd;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .file-input-wrapper:hover {
+        background: #f4f6fb;
+    }
+
+    .file-input-wrapper input[type="file"] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .drop-hint { font-size: 16px; color: #6b7280; font-weight: 500; }
+    .sub-hint { font-size: 14px; color: #9ca3af; margin-top: 8px; }
+
+    /* --- 제출 버튼 --- */
+    .submit-area {
+        width: 100%;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    input[type="submit"] {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 16px 40px; /* 버튼 크기 확대 */
+        border-radius: 12px;
+        font-size: 18px; /* 버튼 글씨 확대 */
+        font-weight: bold;
+        cursor: pointer;
+        transition: filter 0.2s;
+    }
+
+    input[type="submit"]:hover {
+        filter: brightness(0.9);
+    }
+</style>
+{% endblock style %}
+
+{% block section %}
+<div class="main-container">
+    <a class="back-link" href="/list">← 상품 목록으로 돌아가기</a>
+    <h1 class="page-title">상품 등록 (Add New Product)</h1>
+
+    <form action="/submit_item_post" enctype="multipart/form-data" method="post">
+        
+        <div class="col1">
+            <label for="name">상품명 (Item Name)</label>
+            <input type="text" name="name" id="name" placeholder="상품 이름을 입력하세요" required>
+        </div>
+
+        <div class="col2">
+            <label for="seller">판매자 ID (Seller ID)</label>
+            <input type="text" name="seller" id="seller" required>
+        </div>
+
+        <div class="col2">
+            <label for="phone">전화번호 (Phone)</label>
+            <input type="text" name="phone" id="phone" placeholder="010-0000-0000">
+        </div>
+
+        <div class="col2">
+            <label for="email">이메일 (Email)</label>
+            <input type="text" name="email" id="email" required>
+        </div>
+
+        <div class="col2">
+            <label for="addr">거래 장소 (Address)</label>
+            <input type="text" name="addr" id="addr" required>
+        </div>
+
+        <div class="col3">
+            <label for="category">카테고리</label>
+            <select id="category" name="category">
+                <option value="Clothes" selected>의류 (Clothes)</option>
+                <option value="Beauty">뷰티 (Beauty)</option>
+                <option value="Books">도서 (Books)</option>
+                <option value="Furniture">가구 (Furniture)</option>
+                <option value="Electronics">전자제품</option>
+                <option value="ETC">기타 (ETC)</option>
+            </select>
+        </div>
+
+        <div class="col3">
+            <label for="status">상품 상태</label>
+            <select id="status" name="status">
+                <option value="new" selected>새 상품 (New)</option>
+                <option value="lnew">거의 새 것 (Likely New)</option>
+                <option value="used">중고 (Used)</option>
+            </select>
+        </div>
+
+        <div class="col3">
+            <label for="card">카드결제 여부</label>
+            <select id="card" name="card">
+                <option value="Y" selected>가능 (Yes)</option>
+                <option value="N">불가능 (No)</option>
+            </select>
+        </div>
+
+        <fieldset class="uploader">
+            <label>대표 이미지 업로드</label>
+            <div class="file-input-wrapper">
+                <input type="file" name="file" id="img" required>
+                <span class="drop-hint">📁 이미지를 클릭하거나 드래그하세요</span>
+                <span class="sub-hint">대표 이미지 1장을 선택해주세요</span>
+            </div>
+        </fieldset>
+
+        <div class="submit-area">
+            <input type="submit" value="상품 등록하기 (Submit)">
+        </div>
+
+    </form>
+</div>
+
+<script>
+    // 1. 파일 선택창(input)과 글자(span) 요소를 찾아옵니다.
+    const fileInput = document.querySelector('#img');
+    const fileLabel = document.querySelector('.drop-hint');
+    const subHint = document.querySelector('.sub-hint');
+
+    // 2. 사용자가 파일을 선택하거나 바꿀 때마다 실행되는 '이벤트'를 겁니다.
+    fileInput.addEventListener('change', () => {
+        // 파일이 하나라도 선택되었다면?
+        if (fileInput.files.length > 0) {
+            const fileName = fileInput.files[0].name; // 파일 이름 가져오기
+            
+            // 3. 화면의 글자를 파일 이름으로 바꿔줍니다.
+            fileLabel.textContent = "✅ 파일 선택 완료: " + fileName;
+            fileLabel.style.color = "#27ae60"; // 초록색으로 변경
+            fileLabel.style.fontWeight = "bold";
+            
+            // 보조 문구는 숨깁니다.
+            subHint.style.display = "none";
+        } else {
+            // 파일 선택을 취소했다면 원래대로 되돌림
+            fileLabel.textContent = "📁 이미지를 클릭하거나 드래그하세요";
+            fileLabel.style.color = "#6b7280";
+            subHint.style.display = "block";
+        }
+    });
+</script>
+
+{% endblock section %}

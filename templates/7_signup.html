@@ -1,0 +1,145 @@
+{% extends "index.html" %}
+
+{% block style %}
+<style>
+    /* --- 회원가입 페이지 전용 스타일 --- */
+    
+    .signup-wrapper {
+        font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+        display: flex;
+        justify-content: center;
+        padding-top: 60px; 
+        padding-bottom: 100px;
+    }
+
+    .form-container {
+        width: 500px; /* 너비 확대 (360px -> 500px) */
+        padding: 50px 50px; /* 내부 여백 확대 */
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        border-radius: 20px; /* 둥글기 증가 */
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-container h2 {
+        margin-bottom: 40px;
+        font-size: 32px; /* 제목 크기 확대 */
+        font-weight: 750;
+        color: #222;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    label {
+        display: block;
+        font-size: 16px; /* 라벨 크기 확대 */
+        margin-bottom: 8px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    /* 입력창 스타일 (둥근 형태) */
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="tel"] {
+        width: 100%;
+        padding: 14px 24px; /* 입력창 높이 확대 */
+        border: 2px solid rgba(0, 0, 0, 0.18);
+        border-radius: 30px; /* 알약 모양 */
+        outline: none;
+        font-size: 16px;
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+    }
+
+    input:focus {
+        border-color: rgb(0, 70, 42); /* 이화 그린 */
+    }
+
+    /* 버튼 스타일 */
+    .submit-btn {
+        width: 100%;
+        padding: 16px; /* 버튼 높이 확대 */
+        border: none;
+        border-radius: 30px;
+        background-color: #004d2c;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 30px;
+        font-size: 20px; /* 버튼 글씨 확대 */
+        transition: background-color 0.2s;
+    }
+
+    .submit-btn:hover {
+        background-color: #036636;
+    }
+
+    .login-link {
+        margin-top: 20px;
+        font-size: 15px;
+        color: #666;
+    }
+    .login-link a {
+        color: #004d2c;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .login-link a:hover { text-decoration: underline; }
+
+</style>
+{% endblock style %}
+
+{% block section %}
+
+{% with mesg = get_flashed_messages() %}
+    {% if mesg != [] %}
+        <script>alert("{{ mesg[0] }}")</script>
+    {% endif %}
+{% endwith %}
+
+<div class="signup-wrapper">
+    <div class="form-container">
+        <h2>회원가입</h2>
+        
+        <form method="post" action="/signup_post">
+            
+            <div class="form-group">
+                <label for="id">아이디 (ID)</label>
+                <input type="text" name="id" id="id" placeholder="아이디를 입력하세요" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pw">비밀번호 (Password)</label>
+                <input type="password" name="pw" id="pw" placeholder="비밀번호를 입력하세요" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nickname">닉네임 (Nickname)</label>
+                <input type="text" name="nickname" id="nickname" placeholder="닉네임을 입력하세요" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">이메일 (Email)</label>
+                <input type="email" name="email" id="email" placeholder="이메일 주소 (선택)">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">전화번호 (Phone)</label>
+                <input type="tel" name="phone" id="phone" placeholder="전화번호 (선택)">
+            </div>
+
+            <input type="submit" class="submit-btn" value="계정 생성하기">
+            
+            <div class="login-link">
+                이미 계정이 있으신가요? <a href="/login">로그인</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock section %}

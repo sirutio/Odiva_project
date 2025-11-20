@@ -1,33 +1,183 @@
-<p>
-    Seller {{data.seller}} sells {{data.name}} and its category is {{data.category}}.
-    The item is 
-    
-    {% if data['status'] == "lnew" %}
-    likely new!
-    {% endif %}
-    
-    {% if data['status'] == "new" %}
-    new!
-    {% endif %}
-    
-    {% if data['status'] == "used" %}
-    used!
-    {% endif %}
-</p>
-<img src="{{img_path}}"/>
-<p>
-    Contact via {{data.email}} or {{data.phone}}
-    if you are interested!
-    The address is {{data.addr}}
-</p>
-<p>
-    For payment, the credit card is
+{% extends "index.html" %}
 
-    {% if data['card'] == "Y" %}
-    accepted!
-    {% endif %}
+{% block style %}
+<style>
+    /* --- 결과 페이지 전용 스타일 --- */
+    
+    .result-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        text-align: center; /* 전체 중앙 정렬 */
+    }
 
-    {% if data['card'] == "N" %}
-    NOT accepted!
-    {% endif %}
-</p>
+    /* 성공 메시지 카드 */
+    .result-card {
+        background-color: #fff;
+        padding: 50px;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e5e7eb;
+    }
+
+    .success-icon {
+        font-size: 50px;
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .result-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .result-desc {
+        color: #6b7280;
+        font-size: 16px;
+        margin-bottom: 40px;
+    }
+
+    /* 등록된 이미지 */
+    .uploaded-img {
+        max-width: 100%;
+        height: 300px;
+        object-fit: contain; /* 이미지 비율 유지 */
+        border-radius: 12px;
+        background-color: #f9fafb;
+        border: 1px solid #eee;
+        margin-bottom: 30px;
+    }
+
+    /* 정보 요약 테이블 스타일 */
+    .info-summary {
+        text-align: left; /* 텍스트는 왼쪽 정렬 */
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .info-value {
+        font-weight: 500;
+        color: #111;
+        text-align: right;
+    }
+
+    /* 버튼 그룹 */
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+
+    .btn-primary {
+        background-color: rgb(0, 70, 42); /* 이화 그린 */
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: rgb(0, 50, 30);
+    }
+
+    .btn-secondary {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+
+    .btn-secondary:hover {
+        background-color: #dee2e6;
+    }
+</style>
+{% endblock style %}
+
+{% block section %}
+<div class="result-container">
+    <div class="result-card">
+        <span class="success-icon">🎉</span>
+        <h1 class="result-title">상품 등록이 완료되었습니다!</h1>
+        <p class="result-desc">입력하신 상품 정보가 성공적으로 저장되었습니다.</p>
+
+        {% if img_path %}
+            <img src="{{ img_path }}" class="uploaded-img" alt="등록된 이미지">
+        {% else %}
+            <div style="padding: 20px; background: #f1f1f1; border-radius: 8px; margin-bottom: 20px;">이미지 없음</div>
+        {% endif %}
+
+        <div class="info-summary">
+            <div class="info-row">
+                <span class="info-label">상품명</span>
+                <span class="info-value">{{ data.name }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">카테고리</span>
+                <span class="info-value">{{ data.category }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">판매자 ID</span>
+                <span class="info-value">{{ data.seller }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">상태</span>
+                <span class="info-value">
+                    {% if data['status'] == "lnew" %} 거의 새 것 (Likely New) {% endif %}
+                    {% if data['status'] == "new" %} 새 상품 (New) {% endif %}
+                    {% if data['status'] == "used" %} 중고 (Used) {% endif %}
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">카드결제</span>
+                <span class="info-value">
+                    {% if data['card'] == "Y" %} 
+                        <span style="color:#27ae60;">가능 (Accepted)</span>
+                    {% else %} 
+                        <span style="color:#e74c3c;">불가능 (Not Accepted)</span>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">거래지역</span>
+                <span class="info-value">{{ data.addr }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">연락처/이메일</span>
+                <span class="info-value">{{ data.phone }} / {{ data.email }}</span>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="/list" class="btn btn-secondary">목록으로 이동</a>
+            <a href="/reg_items" class="btn btn-primary">추가 등록하기</a>
+        </div>
+    </div>
+</div>
+{% endblock section %}

@@ -1,0 +1,272 @@
+{% extends "index.html" %}
+
+{% block style %}
+<style>
+    /* --- 상품 상세 페이지 전용 스타일 --- */
+    
+    /* 페이지 레이아웃 */
+    .product-container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .page-section {
+        background-color: #fff;
+        padding: 40px;
+        margin-bottom: 20px;
+        border-radius: 16px; 
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); 
+    }
+
+    /* 1. 상단 상품 정보 영역 (이미지 + 텍스트) */
+    .product-content {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    /* 이미지 박스 */
+    .product-image-box {
+        width: 350px;
+        height: 350px;
+        flex-shrink: 0;
+        border-radius: 12px;
+        overflow: hidden; 
+        position: relative; 
+        background-color: #f8f9fa;
+        border: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-image-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 이미지가 박스를 꽉 채우도록 */
+    }
+    
+    /* 이미지가 없을 때 보여줄 스타일 */
+    .no-image::after {
+        content: '이미지 없음';
+        color: #ccc;
+    }
+
+    /* 텍스트 정보 영역 */
+    .product-info {
+        flex-grow: 1;
+        display: flex; 
+        flex-direction: column; 
+    }
+
+    .name-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .product-name {
+        font-size: 32px;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-weight: 700; 
+        color: #2c3e50;
+    }
+
+    .product-category {
+        font-size: 16px;
+        color: rgb(0, 70, 42); /* 이화 그린 */
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    /* 정보 라인 (테이블처럼 보이는 부분) */
+    .info-line {
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        padding: 15px 0; 
+        font-size: 16px;
+    }
+
+    .info-label {
+        font-weight: 600; 
+        color: #555;
+        flex-shrink: 0; 
+    }
+
+    .info-value {
+        color: #333; 
+        text-align: right; 
+        font-weight: 400; 
+    }
+
+    /* 버튼 영역 */
+    .product-actions {
+        margin-top: auto; 
+        padding-top: 30px; 
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .btn-review {
+        background-color: rgb(0, 70, 42); 
+        color: #FFFFFF;
+    }
+
+    .btn-review:hover {
+        background-color: rgb(0, 50, 30); 
+        transform: translateY(-2px);
+    }
+
+    .btn-back {
+        background-color: #f1f3f5;
+        color: #495057;
+    }
+    .btn-back:hover {
+        background-color: #e9ecef;
+    }
+
+    /* 반응형: 모바일에서는 세로로 배치 */
+    @media (max-width: 768px) {
+        .product-content {
+            flex-direction: column;
+        }
+        .product-image-box {
+            width: 100%;
+            height: 300px;
+        }
+    }
+</style>
+{% endblock style %}
+
+{% block section %}
+<script>
+    function showHeart() {
+        $.ajax({
+            type: 'GET',
+            url: '/show_heart/{{name}}/',
+            data: {},
+            success: function(response) {
+                let my_heart = response['my_heart'];
+                if (my_heart['interested'] == 'Y') {
+                    $("#heart").css("color","red");
+                    $("#heart").attr("onclick","unlike()");
+                }
+                else {
+                    $("#heart").css("color","grey");
+                    $("#heart").attr("onclick","like()");
+                }
+                //alert("showheart!")
+            }
+        });
+    }
+    function like() {
+        $.ajax({
+            type: 'POST',
+            url: '/like/{{name}}/',
+            data: {interested : "Y"},
+            success: function(response) {
+                alert(response['msg']);
+                window.location.reload()
+            }
+        });
+    }
+    function unlike() {
+        $.ajax({
+            type : 'POST',
+            url: '/unlike/{{name}}/',
+            data: {interested : "N"},
+            success: function(response) {
+                alert(response['msg']);
+                window.location.reload()
+            }
+        });
+    }
+    $(document).ready(function() {
+        showHeart();
+    });
+</script>
+<p>
+
+<div class="product-container">
+    <section class="page-section">
+        <div class="product-content">
+            
+            <div class="product-image-box">
+                <img src="{{ url_for('static', filename='images/' + data.img_path) }}" 
+                     alt="{{name}}" 
+                     onerror="this.style.display='none'; this.parentElement.classList.add('no-image');">
+            </div>
+            
+            <div class="product-info">
+                <div class="product-category">{{ data.category }}</div>
+
+                <div class = "name-header">
+                    <h1 class="product-name">{{ name }}</h1>
+                    <i class="fa fa-heart" id="heart"></i>
+                </div>
+                
+                <div class="info-line" style="border-top: 1px solid #eee;">
+                    <span class="info-label">판매자 (Seller)</span>
+                    <span class="info-value">{{ data.seller }}</span>
+                </div>
+
+                <div class="info-line">
+                    <span class="info-label">연락처 (Phone)</span>
+                    <span class="info-value">{{ data.phone }}</span>
+                </div>
+
+                <div class="info-line">
+                    <span class="info-label">거래 지역 (Address)</span>
+                    <span class="info-value">{{ data.addr }}</span>
+                </div>
+
+                <div class="info-line">
+                    <span class="info-label">상품 상태 (Status)</span>
+                    <span class="info-value">
+                        {% if data.status == 'new' %} 새 상품 (New)
+                        {% elif data.status == 'used' %} 중고 (Used)
+                        {% elif data.status == 'lnew' %} 거의 새 것 (Likely New)
+                        {% else %} {{ data.status }}
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="info-line">
+                    <span class="info-label">카드 결제 (Credit Card)</span>
+                    <span class="info-value">
+                        {% if data.card == "Y" %}
+                            <span style="color: #27ae60; font-weight:bold;">가능 (Accepted)</span>
+                        {% else %}
+                            <span style="color: #e74c3c; font-weight:bold;">불가능 (Not Accepted)</span>
+                        {% endif %}
+                    </span>
+                </div>
+                
+                <div class="product-actions">
+                    <button class="btn btn-back" onclick="location.href='/list';">목록으로</button>
+                    <button class="btn btn-review" onclick="location.href='/reg_review_init/{{name}}/';">리뷰 등록하기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock section %}

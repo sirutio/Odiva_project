@@ -1,111 +1,192 @@
+/* =========================================
+   1. 기본 초기화 (Reset & Font)
+   ========================================= */
+:root {
+    --text: #333333; 
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
 }
 
 body {
-    background-color: white;
+    font: 20px/1.5 "Pretendard", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--text);
+    background-color: #fdfdfd;
+    margin: 0;
 }
 
 a {
     text-decoration: none;
-    color: white;
+    color: inherit;
 }
 
-ul, ol { 
+ul {
     list-style: none;
-    padding: 0;
-    margin: 0;
 }
 
+/* =========================================
+   2. 네비게이션 바 (Navbar)
+   ========================================= */
 .navbar {
+    background-color: rgb(0, 70, 42);
+    color: white;
+    width: 100%;
+    height: 130px;            /* 높이 고정 */
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 0 40px;
+    
+    /* 상단 고정 */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0;                /* 구분선 마진으로 간격 조절 */
+    height: 100%;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* 메뉴 사이 구분선 */
+.nav-links li:not(:last-child)::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 16px;
+    background-color: rgba(255, 255, 255, 0.4);
+    margin: 0 35px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+}
+
+/* =========================================
+   3. 유저 드롭다운 메뉴 (User Dropdown)
+   ========================================= */
+.user-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+}
+
+.user-name {
+    color: white;
+    font-weight: 700;
+    padding: 10px 0;
+    display: flex;           /* 화살표 정렬을 위해 flex 사용 */
+    align-items: center;     /* 수직 중앙 정렬 */
+    white-space: nowrap;
+}
+
+/* 🔥 [신규] 세련된 화살표 아이콘 스타일 */
+.arrow-down {
+    border: solid white;
+    border-width: 0 2px 2px 0; /* 우측, 하단만 선 표시 */
+    display: inline-block;
+    padding: 3px;              /* 화살표 크기 */
+    margin-left: 10px;         /* 닉네임과 간격 */
+    margin-bottom: 2px;        /* 시각적 위치 보정 */
+    transform: rotate(45deg);  /* 45도 회전시켜 화살표 모양 만듦 */
+    transition: transform 0.3s ease; /* 부드러운 회전 애니메이션 */
+    border-radius: 1px;        /* 끝부분 살짝 둥글게 */
+}
+
+/* 마우스 올렸을 때 화살표 뒤집기 효과 */
+.user-menu:hover .arrow-down {
+    transform: rotate(-135deg);
+    margin-bottom: -2px;
+}
+
+/* 드롭다운 박스 */
+.user-menu-content {
+    display: none;
+    position: absolute;
+    /* 🔥 [수정] 닉네임을 가리지 않도록 네비바 높이(80px)만큼 내림 */
+    top: 130px;               
+    right: 0;
+    background-color: #fff;
+    min-width: 180px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    padding: 10px 0;
+    z-index: 2000;
+    border: 1px solid #eee;
+}
+
+.user-menu:hover .user-menu-content {
+    display: block;
+}
+
+.user-menu-content a {
+    color: #333;
+    padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2b2b2b;
-    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background 0.1s;
+    white-space: nowrap;
 }
 
-.navbar__logo a {
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
-
-.navbar__menu {
-    display: flex !important; 
-    list-style: none;
-}
-
-.navbar__menu li {
-    padding: 0 25px; 
-}
-
-.navbar__menu a {
-    color: white;
-    font-size: 18px;
-}
-
-.navbar__menu li:hover a {
-    color: #ffd700;
-}
-
-.navbar__toggleBtn {
-    display: none;
-}
-
-/* list.html 임시 css*/
-.page-nation li{
-    list-style: none;
-}
-.page-wrap{
-    text-align: center;
-    font-size: 0;
-}
-.page-nation{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-.page-nation a{
-    display: block;
-    margin: 0 3px;
-    float: left;
-    border: 1px solid #e6e6e6;
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    text-align: center;
-    background-color: #fff;
-    font-size: 13px;
-    color: black;
+.user-menu-content a:hover {
+    background-color: #f8f9fa;
+    color: rgb(0, 70, 42);
     text-decoration: none;
-    font-weight:bold;
 }
 
-/* 상품 리스트 테이블 스타일 추가 */
-table {
-    width: 90%; /* 화면 너비의 90% 사용 */
-    margin: 20px auto; /* 중앙 정렬 및 상하 여백 */
-    border-collapse: collapse; /* 셀 경계선을 하나로 합치기 */
+.menu-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 5px 0;
 }
 
-table tr {
-    text-align: center;
-}
-
-table td {
-    border: 1px solid #ccc; /* 셀 테두리 추가 */
-    padding: 10px; /* 내부 여백 추가 */
-    vertical-align: top;
-    width: calc(100% / 3); /* 3열로 나누기 */
-}
-
-/* Section 내부 스타일 (list.html 내용이 들어가는 영역) */
+/* =========================================
+   4. 메인 컨텐츠 영역 (공통)
+   ========================================= */
 section {
-    padding-top: 50px; /* 네비게이션 바 아래에 여백 추가 */
-    text-align: center;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+/* 5. 좋아요 기능 관련 */
+#heart {
+    color:grey;
+    font-size: 30px;
+}
+#heart.red {
+    color: red;
 }

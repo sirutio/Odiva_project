@@ -63,6 +63,23 @@ class DBhandler:
         
         return False
     
+    # database.py의 DBhandler 클래스 안에 추가해주세요!
+    
+    def get_user(self, id_):
+        # 'user' 테이블의 모든 데이터를 가져옴
+        users = self.db.child("user").get()
+        
+        # 데이터베이스에 사용자가 아무도 없을 경우 처리
+        if users.val() is None:
+            return None
+
+        # 반복문을 돌면서 아이디가 일치하는 사용자 정보를 찾음
+        for user in users.each():
+            if user.key() == id_:
+                return user.val()
+                
+        return None
+    
     def get_items(self):
         items = self.db.child("item").get().val()
         return items if items else {} # 오류 방지 위해 items가 None이면 {} 반환하도록 함.
@@ -76,3 +93,41 @@ class DBhandler:
             if key_value == name:
                 target_value=res.val()
         return target_value
+    
+    def reg_review(self, data, img_path):
+        review_info ={
+        "item_name": data['name'],
+        "title": data['title'],
+        "rate": data['reviewStar'],
+        "review": data['reviewContents'],
+        "img_path": img_path
+        }
+        self.db.child("review").push(review_info)
+        return True
+    
+    def get_reviews(self):
+        reviews = self.db.child("review").get().val()
+        return reviews
+    
+    def get_review_byname(self, name):
+        data = self.db.child("review").child(name).get().val()
+        return data
+    
+    def get_heart_byname(self, uid, name):
+        hearts = self.db.child("heart").child(uid).get()
+        target_value = ""
+        if hearts.val() == None:
+            return target_value
+        
+        for res in hearts.each():
+            key_value = res.key()
+            
+            if key_value == name:
+                target_value = res.val()
+        return target_value
+    
+    def update_heart(self, user_id, isHeart, item):
+        heart_info = {"interested" : isHeart}
+        self.db.child("heart").child(user_id).child(item).set(heart_info)
+        return True
+    

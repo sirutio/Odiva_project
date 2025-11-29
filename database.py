@@ -131,3 +131,33 @@ class DBhandler:
         self.db.child("heart").child(user_id).child(item).set(heart_info)
         return True
     
+    def get_hot_items(self, limit=3):
+
+        items = self.get_items()  
+        if not items:
+            return []
+
+
+        hearts = self.db.child("heart").get().val() or {}
+
+
+        like_counts = {name: 0 for name in items.keys()}
+
+        for user_id, user_hearts in hearts.items():
+            if not user_hearts:
+                continue
+            for item_name, heart_info in user_hearts.items():
+                if heart_info.get('interested') == 'Y' and item_name in like_counts:
+                    like_counts[item_name] += 1
+
+
+        hot_list = []
+        for name, info in items.items():
+            data = info.copy()
+            data['name'] = name   
+            data['like_count'] = like_counts.get(name, 0)
+            hot_list.append(data)
+
+
+        hot_list.sort(key=lambda x: x['like_count'], reverse=True)
+        return hot_list[:limit]

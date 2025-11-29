@@ -12,8 +12,8 @@ DB = DBhandler()
 
 @application.route("/")
 def hello():
-  # return render_template("index.html")
-  return redirect(url_for('view_list'))
+    hot_items = DB.get_hot_items(limit=3)
+    return render_template("0_main.html", hot_items=hot_items)
 
 # list 화면 구현
 @application.route("/list")
@@ -164,7 +164,7 @@ def login_user():
       session['nickname'] = user_info['nickname']
     else:
       session['nickname'] = id_
-    return redirect(url_for('view_list'))
+    return redirect(url_for('hello'))
   else:
     flash("Wrong ID or PW!")
     return render_template("8_login.html")
@@ -189,7 +189,7 @@ def register_user():
 @application.route("/logout")
 def logout_user():
   session.clear()
-  return redirect(url_for('view_list'))
+  return redirect(url_for('hello'))
 
 # GET 방식: 터미널과 주소에 모든 특징이 표현되나 이러한 이유로 파라미터 길이에 제한 O
 @application.route("/submit_item")

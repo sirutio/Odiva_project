@@ -1,0 +1,367 @@
+{% extends "index.html" %}
+
+{% block style %}
+<style>
+    :root {
+        --ewha-green: rgb(0, 70, 42);
+        --bg-color: #f6f6f6;
+    }
+
+    body {
+        background-color: #ffffff;
+    }
+
+    .main-wrapper {
+        max-width: 1320px; 
+        margin: 0 auto;
+        padding: 30px 40px 120px;
+    }
+
+    .hero {
+        display: flex;
+        gap: 24px;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+        padding: 32px 32px;
+        min-height: 330px; 
+        margin-bottom: 40px;
+        align-items: stretch;
+
+        background-image:
+            linear-gradient(to right,
+                #ffffff 0%,
+                #ffffff 35%,
+                rgba(255,255,255,0) 65%
+            ),
+            url("{{ url_for('static', filename='images/main.png') }}");
+        background-size: cover;
+        background-position: right center;
+        background-repeat: no-repeat;
+    }
+
+    .hero-left {
+        flex: 1.1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .hero-content {
+        max-width: 400px; 
+    }
+
+    .hero-title-main {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+
+    .hero-title-highlight {
+        color: var(--ewha-green);
+    }
+
+    .hero-desc {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 24px;
+    }
+    
+
+    .hero-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 12px 0px;
+        border-radius: 999px;
+        background-color: var(--ewha-green);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 6px 14px rgba(0, 70, 42, 0.3);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .hero-btn:hover {
+        background-color: #01452a;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 20px rgba(0, 70, 42, 0.35);
+    }
+
+    .hero-right {
+        flex: 1;
+        min-height: 180px;
+    }
+
+    .hero-right img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .hero-placeholder-text {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        color: #777;
+    }
+
+    /* ----- 지금 가장 핫한 거래 ----- */
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .hot-section {
+        margin-bottom: 40px;
+    }
+
+    .hot-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    .hot-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 18px 18px 20px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        border : 1px solid #eee;
+    }
+
+    .hot-card:hover{
+        transform:translateY(-8px);
+        box-shadow:0 10px 25px rbga(0,0,0,0.12);
+    }
+
+    .hot-thumb {
+        background: #f0f0f0;
+        border-radius: 12px;
+        margin-bottom: 14px;
+        width: 100%;
+        height: 200px;        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .hot-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .hot-thumb-empty{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        color: #aaa;
+    }
+
+    .hot-name {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .hot-price {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .hot-meta {
+        font-size: 13px;
+        color: #777;
+    }
+
+    /* ----- 공지사항 & 이용안내 ----- */
+    .notice-section {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 22px 22px 24px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
+    }
+
+    .notice-header {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 14px;
+    }
+
+    .notice-box {
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        padding: 14px 18px;
+    }
+
+    .notice-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .notice-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 13px;
+        color: #444;
+    }
+
+    .notice-list li {
+        display: flex;
+        align-items: flex-start;
+        padding: 6px 0;
+        border-bottom: 1px solid #f2f2f2;
+    }
+
+    .notice-list li:last-child {
+        border-bottom: none;
+    }
+
+    .notice-bullet {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        border: 1px solid #999;
+        font-size: 11px;
+        margin-right: 8px;
+        margin-top: 2px;
+    }
+
+    .notice-text {
+        flex: 1;
+    }
+
+
+    @media (max-width: 992px) {
+        .hero {
+            flex-direction: column;
+        }
+        .hero-right {
+            min-height: 150px;
+        }
+        .hot-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 640px) {
+        .main-wrapper {
+            padding: 20px 16px 40px;
+        }
+        .hot-cards {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock style %}
+
+{% block section %}
+<div class="main-wrapper">
+    <div class="hero">
+        <div class="hero-left">
+            <div class="hero-content">
+                <div class="hero-title-main">
+                    이화인들을 위한 따뜻한 거래의 장,<br>
+                    <span class="hero-title-highlight">EWHA MARKET</span>
+                </div>
+                <div class="hero-desc">
+                    전공책부터 자취 용품까지, 벗들과 주고 받아요
+                </div>
+                <a href="{{ url_for('view_list') }}" class="hero-btn">지금 둘러보기</a>
+            </div>
+        </div>
+
+
+        <div class="hero-right">
+        </div>
+    </div>
+
+    <!-- 지금 가장 핫한 거래 -->
+    <section class="hot-section">
+    <h2 class="section-title">지금 가장 핫한 거래</h2>
+
+    {% if hot_items %}
+    <div class="hot-cards">
+        {% for item in hot_items %}
+            <div class="hot-card"
+                onclick="location.href='/view_detail/{{ item.name }}/';"
+                style="cursor:pointer;">
+            
+            <div class="hot-thumb">
+                {% if item.img_path %}
+                    <img src="{{ url_for('static', filename='images/' + item.img_path) }}" 
+                        alt="{{ item.name }}">
+                {% else %}
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#aaa; font-size:13px;">
+                        이미지 없음
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="hot-name">
+                {{ item.iname or item.name }}
+            </div>
+
+            <div class="hot-meta">
+                {{ item.like_count }}명이 좋아요를 눌렀어요
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p style="font-size:14px; color:#777;">아직 좋아요가 있는 상품이 없습니다.</p>
+    {% endif %}
+</section>
+
+
+    <!-- 공지사항 및 이용안내 -->
+    <section class="notice-section">
+        <div class="notice-header">공지사항 및 이용안내</div>
+        <div class="notice-box">
+            <div class="notice-title">공지사항</div>
+            <ul class="notice-list">
+                <li>
+                    <span class="notice-bullet">①</span>
+                    <span class="notice-text">[필독] 안전한 직거래를 위한 가이드라인 안내</span>
+                </li>
+                <li>
+                    <span class="notice-bullet">②</span>
+                    <span class="notice-text">시스템 점검 및 기능 업데이트 예정 안내</span>
+                </li>
+                <li>
+                    <span class="notice-bullet">③</span>
+                    <span class="notice-text">이화마켓 이용 시 주의사항 안내</span>
+                </li>
+                <li>
+                    <span class="notice-bullet">④</span>
+                    <span class="notice-text">벗들을 위한 중고거래 사이트, 이화마켓</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+{% endblock section %}

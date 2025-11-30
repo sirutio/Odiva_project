@@ -12,8 +12,8 @@ DB = DBhandler()
 
 @application.route("/")
 def hello():
-  # return render_template("index.html")
-  return redirect(url_for('view_list'))
+    hot_items = DB.get_hot_items(limit=3)
+    return render_template("0_main.html", hot_items=hot_items)
 
 # list 화면 구현
 @application.route("/list")
@@ -144,9 +144,6 @@ def unlike(name):
 def reg_item():
   return render_template("1_reg_items.html")
 
-
-
-
 # login
 @application.route("/login")
 def login():
@@ -164,7 +161,7 @@ def login_user():
       session['nickname'] = user_info['nickname']
     else:
       session['nickname'] = id_
-    return redirect(url_for('view_list'))
+    return redirect(url_for('hello'))
   else:
     flash("Wrong ID or PW!")
     return render_template("8_login.html")
@@ -189,7 +186,29 @@ def register_user():
 @application.route("/logout")
 def logout_user():
   session.clear()
-  return redirect(url_for('view_list'))
+  return redirect(url_for('hello'))
+
+# mypage
+@application.route("/mypage")
+def mypage():
+    if 'id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['id']
+    
+    # 1. 내 정보 가져오기
+    user_info = DB.get_user(user_id)
+    
+    # 2. 내가 등록한 상품만 필터링해서 가져오기
+    all_items = DB.get_items()
+    my_items = {}
+    
+    if all_items:
+        for name, item in all_items.items():
+            if item.get('seller') == user_id:
+                my_items[name] = item
+
+    return render_template("9_mypage.html", user_info=user_info, my_items=my_items)
 
 # GET 방식: 터미널과 주소에 모든 특징이 표현되나 이러한 이유로 파라미터 길이에 제한 O
 @application.route("/submit_item")

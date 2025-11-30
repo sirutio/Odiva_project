@@ -29,7 +29,9 @@ class DBhandler:
         user_info ={
             "id": data.get('id', None),
             "pw": pw,
-            "nickname": data.get('nickname', None)
+            "nickname": data.get('nickname', None),
+            "email": data.get('email', None),  # [추가됨] 이메일 저장
+            "phone": data.get('phone', None)   # [추가됨] 전화번호 저장
         }
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)   
@@ -66,17 +68,20 @@ class DBhandler:
     # database.py의 DBhandler 클래스 안에 추가해주세요!
     
     def get_user(self, id_):
-        # 'user' 테이블의 모든 데이터를 가져옴
         users = self.db.child("user").get()
         
-        # 데이터베이스에 사용자가 아무도 없을 경우 처리
+        # 데이터가 아예 없으면 None 반환
         if users.val() is None:
             return None
 
-        # 반복문을 돌면서 아이디가 일치하는 사용자 정보를 찾음
-        for user in users.each():
-            if user.key() == id_:
-                return user.val()
+        for res in users.each():
+            value = res.val()
+            
+            # [수정된 부분] 
+            # value['id'] 대신 value.get('id')를 사용합니다.
+            # 데이터에 'id'가 없으면 에러 대신 None을 반환하여 안전하게 넘어갑니다.
+            if value.get('id') == id_:
+                return value
                 
         return None
     
@@ -131,3 +136,33 @@ class DBhandler:
         self.db.child("heart").child(user_id).child(item).set(heart_info)
         return True
     
+    def get_hot_items(self, limit=3):
+
+        items = self.get_items()  
+        if not items:
+            return []
+
+
+        hearts = self.db.child("heart").get().val() or {}
+
+
+        like_counts = {name: 0 for name in items.keys()}
+
+        for user_id, user_hearts in hearts.items():
+            if not user_hearts:
+                continue
+            for item_name, heart_info in user_hearts.items():
+                if heart_info.get('interested') == 'Y' and item_name in like_counts:
+                    like_counts[item_name] += 1
+
+
+        hot_list = []
+        for name, info in items.items():
+            data = info.copy()
+            data['name'] = name   
+            data['like_count'] = like_counts.get(name, 0)
+            hot_list.append(data)
+
+
+        hot_list.sort(key=lambda x: x['like_count'], reverse=True)
+        return hot_list[:limit]

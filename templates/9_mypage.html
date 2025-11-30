@@ -1,0 +1,240 @@
+{% extends "index.html" %}
+
+{% block style %}
+<style>
+    /* --- 마이페이지 전용 스타일 --- */
+    .mypage-wrapper {
+        max-width: 1200px; /* 전체 너비를 좀 더 넓게 (1000 -> 1200px) */
+        margin: 0 auto;
+        padding: 50px 20px 100px;
+    }
+
+    .page-header {
+        margin-bottom: 40px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-title {
+        font-size: 32px; /* 제목 크기 확대 */
+        font-weight: 700;
+        color: #333;
+    }
+
+    /* --- 프로필 섹션 --- */
+    .profile-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 24px; /* 더 둥글게 */
+        padding: 36px; /* 패딩 확대 */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        margin-bottom: 60px; /* 간격 확대 */
+    }
+
+    .profile-icon {
+        width: 100px; /* 아이콘 크기 확대 */
+        height: 100px;
+        background-color: var(--ewha-green);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px; /* 이모지 크기 확대 */
+        color: white;
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-nickname {
+        font-size: 26px; /* 닉네임 확대 */
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .profile-id {
+        color: #666;
+        font-size: 16px; /* 아이디 정보 확대 */
+    }
+
+    .btn-logout {
+        padding: 12px 24px; /* 버튼 크기 확대 */
+        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: 999px;
+        color: #555;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+        background: #f1f1f1;
+        border-color: #ccc;
+    }
+
+    /* --- 내 판매 내역 섹션 (카드 크기 UP) --- */
+    .section-title {
+        font-size: 24px; /* 섹션 제목 확대 */
+        font-weight: 700;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .count-badge {
+        background: var(--ewha-green);
+        color: white;
+        font-size: 14px;
+        padding: 4px 10px;
+        border-radius: 12px;
+        vertical-align: middle;
+    }
+
+    /* 그리드 레이아웃 수정 */
+    .item-grid {
+        display: grid;
+        /* [수정] 한 줄에 4개 -> 3개로 변경하여 너비 확보 */
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px; /* 간격 확대 */
+    }
+
+    .item-card {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 20px; /* 둥글기 확대 */
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+
+    .item-thumb {
+        width: 100%;
+        /* [수정] 이미지 높이 대폭 확대 (180px -> 260px) */
+        height: 260px; 
+        background: #f8f8f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    
+    .item-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 이미지가 꽉 차게 */
+    }
+
+    .item-info {
+        padding: 20px; /* 패딩 확대 */
+    }
+
+    .item-name {
+        /* [수정] 상품명 글씨 확대 (15px -> 18px) */
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .item-meta {
+        /* [수정] 정보 글씨 확대 (13px -> 15px) */
+        font-size: 15px;
+        color: #777;
+    }
+
+    /* 반응형 */
+    @media (max-width: 992px) {
+        /* 화면이 좁아지면 2개씩 배치 */
+        .item-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+        .profile-card { flex-direction: column; text-align: center; }
+        .profile-info { margin-bottom: 15px; }
+    }
+    @media (max-width: 576px) {
+         /* 모바일에서는 1개씩 크게 배치 */
+        .item-grid { grid-template-columns: 1fr; }
+    }
+</style>
+{% endblock style %}
+
+{% block section %}
+<div class="mypage-wrapper">
+    
+    <div class="page-header">
+        <div class="page-title">마이페이지</div>
+    </div>
+
+    <div class="profile-card">
+        <div class="profile-icon">
+            <i class="fa-regular fa-user"></i> 😎
+        </div>
+        <div class="profile-info">
+            <div class="profile-nickname">
+                {{ user_info.nickname }}님, 안녕하세요!
+            </div>
+            <div class="profile-id">
+                아이디: {{ user_info.id }} | 이메일: 
+                {% if user_info.email %}
+                    {{ user_info.email }}
+                {% else %}
+                    <span style="color: #999;">등록 안됨</span>
+                {% endif %}
+            </div>
+        </div>
+        <a href="/logout" class="btn-logout">로그아웃</a>
+    </div>
+
+    <div>
+        <div class="section-title">
+            내가 등록한 상품 
+            <span class="count-badge">{{ my_items|length }}</span>
+        </div>
+
+        {% if my_items %}
+        <div class="item-grid">
+            {% for name, item in my_items.items() %}
+            <div class="item-card" onclick="location.href='/view_detail/{{ name }}/';">
+                <div class="item-thumb">
+                    {% if item.img_path %}
+                        <img src="{{ url_for('static', filename='images/' + item.img_path) }}" alt="{{ name }}">
+                    {% else %}
+                        <span style="color:#ccc; font-size:12px;">이미지 없음</span>
+                    {% endif %}
+                </div>
+                <div class="item-info">
+                    <div class="item-name">{{ name }}</div>
+                    <div class="item-meta">
+                        {{ item.addr }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div style="text-align: center; padding: 60px 0; color: #888;">
+                <p>아직 등록한 상품이 없습니다.</p>
+                <a href="/reg_items" style="color:var(--ewha-green); font-weight:600; font-size:14px;">상품 등록하러 가기 &gt;</a>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock section %}

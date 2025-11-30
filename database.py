@@ -1,5 +1,6 @@
 import pyrebase
 import json
+from datetime import datetime
 
 class DBhandler:
     def __init__(self):
@@ -18,7 +19,10 @@ class DBhandler:
             "card": data.get('card'),
             "status": data.get('status'),
             "phone": data.get('phone'),
-            "img_path": img_path
+            "img_path": img_path,
+            "price": data.get("price"),
+            "reg_date": datetime.now().timestamp()
+
         }
 
         self.db.child("item").child(name).set(item_info)
@@ -130,4 +134,6 @@ class DBhandler:
         heart_info = {"interested" : isHeart}
         self.db.child("heart").child(user_id).child(item).set(heart_info)
         return True
+    
+
     

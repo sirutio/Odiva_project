@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from database import DBhandler
+from datetime import datetime
 import hashlib
 import math
 import sys
@@ -20,11 +21,33 @@ def hello():
 def view_list():
     # 1. 페이지 정보 가져오기 (기본값 0)
     page = request.args.get("page", 0, type=int)
+    sort= request.args.get("sort","name")
+    category=request.args.get("category","전체")
     per_page = 8  # 한 페이지당 8개
     per_row = 4   # 한 줄당 4개
 
-    # 2. 전체 데이터 가져오기
-    all_data = DB.get_items() 
+    all_data = DB.get_items()
+
+    if all_data is None:
+        all_data = {}
+    
+    # 2. 카테고리 필터링
+    if category != "전체":
+        all_data = dict(filter(
+            lambda x: x[1].get("category") == category,
+            all_data.items()
+        ))
+
+    # 3. 정렬
+    items = list(all_data.items())   # ← 딕셔너리를 리스트로 변환
+
+    if sort == "name":       # 상품 이름 순
+        items.sort(key=lambda x: x[0])
+    elif sort == "price":    # 가격 순
+        items.sort(key=lambda x: int(x[1].get("price", 0)))
+    elif sort == "date":     # 최신순
+        items.sort(key=lambda x: float(x[1].get("reg_date", 0)), reverse=True)
+  
     item_counts = len(all_data)
     
     # 3. 전체 페이지 수 계산 (math.ceil 사용하여 올림 처리)
@@ -33,11 +56,11 @@ def view_list():
 
     # 4. 현재 페이지에 보여줄 데이터만 자르기 (Slicing)
     start_idx = per_page * page
-    end_idx = per_page * (page + 1)
+    end_idx = start_idx + per_page
     
     # 딕셔너리를 리스트로 변환 후 슬라이싱하고 다시 딕셔너리로 변환
     # (데이터가 없으면 빈 딕셔너리가 됩니다)
-    current_page_data = dict(list(all_data.items())[start_idx:end_idx])
+    current_page_data = dict(items[start_idx:end_idx])
 
     # 5. row1(첫째 줄), row2(둘째 줄) 데이터 나누기
     # current_page_data에서 앞 4개는 row1, 뒤 4개는 row2
@@ -53,7 +76,9 @@ def view_list():
         page=page,
         page_count=page_count,
         row1=row1,
-        row2=row2
+        row2=row2,
+        sort=sort,
+        category=category
     )
 
 @application.route("/view_detail/<name>/")
@@ -209,12 +234,25 @@ def reg_item_submit():
 # POST 방식
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
-  image_file=request.files["file"]
-  image_file.save("static/images/{}".format(image_file.filename))
-  data=request.form
-  DB.insert_item(data['name'],data,image_file.filename)
+    data = request.form.to_dict()  
+    image_file = request.files["file"]
 
-  return render_template("submit_item_result.html", data=data, img_path="static/images/{}".format(image_file.filename))
+    filename = image_file.filename
+    image_file.save("static/images/{}".format(filename))
+
+    data["image"] = filename
+    data["price"] = int(data.get("price", 0))
+    data["reg_date"] = datetime.now().timestamp()
+
+    # DB에 저장
+    DB.insert_item(data["name"], data, filename)
+
+    return render_template(
+        "submit_item_result.html",
+        data=data,
+        img_path="static/images/{}".format(filename)
+    )
 
 if __name__ == "__main__":
   application.run(host='0.0.0.0', debug=True)
+

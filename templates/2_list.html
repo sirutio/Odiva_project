@@ -235,12 +235,32 @@
 
 {% block section %}
     <section class="search-section">
-        <input type="text" placeholder="찾고 싶은 상품을 검색해보세요">
-        
-        <button class="search-btn" onclick="alert('검색 기능은 아직 준비중입니다!');">🔍 검색</button>
-        
-        <a href="/reg_items" class="add-btn">+ 상품 등록</a>
-    </section>
+<form method="get" action="/list" style="display:flex; gap:10px; width:100%;">
+
+    <!-- 카테고리 선택 -->
+    <select name="category">
+        <option value="전체" {% if category=='전체' %}selected{% endif %}>전체</option>
+        <option value="Clothes" {% if category=='Clothes' %}selected{% endif %}>의류</option>
+        <option value="Beauty" {% if category=='Beauty' %}selected{% endif %}>뷰티</option>
+        <option value="Books" {% if category=='Books' %}selected{% endif %}>도서</option>
+        <option value="Electronics" {% if category=='Electronics' %}selected{% endif %}>전자제품</option>
+        <option value="household" {% if category=='household' %}selected{% endif %}>생활용품</option>
+        <option value="ETC" {% if category=='ETC' %}selected{% endif %}>기타</option>
+    </select>
+
+
+    <!-- 정렬 -->
+    <select name="sort">
+        <option value="name" {% if sort=='name' %}selected{% endif %}>이름순</option>
+        <option value="price" {% if sort=='price' %}selected{% endif %}>가격순</option>
+        <option value="date" {% if sort=='date' %}selected{% endif %}>최신순</option>
+    </select>
+
+    <button type="submit" class="search-btn">적용</button>
+
+    <a href="/reg_items" class="add-btn">+ 상품 등록</a>
+</form>
+</section>
 
     {% if total > 0 %}
         <div style="max-width: 1400px; margin: 0 auto; padding: 0 10px; margin-bottom: 10px;">
@@ -256,7 +276,13 @@
                 </div>
                 
                 <h3>{{ key }}</h3>
-                <p class="price">가격 문의</p>
+                <p class="price">
+                    {% if value.price and value.price|int > 0 %}
+                        {{ value.price }}원
+                    {% else %}
+                        가격 문의
+                    {% endif %}
+                </p>
                 <p class="desc">{{ value.category }}</p>
                 
                 <div class="bottom">
@@ -282,7 +308,13 @@
                 </div>
                 
                 <h3>{{ key }}</h3>
-                <p class="price">가격 문의</p>
+                <p class="price">
+                    {% if value.price and value.price|int > 0 %}
+                        {{ value.price }}원
+                    {% else %}
+                        가격 문의
+                     {% endif %}
+                </p>
                 <p class="desc">{{ value.category }}</p>
                 
                 <div class="bottom">
@@ -307,7 +339,10 @@
             <div class="page-nation">
                 <ul>
                     {% for i in range(page_count) %}
-                        <a href="{{url_for('view_list', page=i)}}" class="{% if i == page %}active{% endif %}">{{i + 1}}</a>
+                        <a href="{{url_for('view_list', page=i, sort=sort, category=category)}}"
+                           class="{% if i == page %}active{% endif %}">
+                           {{i + 1}}
+                        </a>
                     {% endfor %}
                 </ul>
             </div>

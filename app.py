@@ -144,9 +144,6 @@ def unlike(name):
 def reg_item():
   return render_template("1_reg_items.html")
 
-
-
-
 # login
 @application.route("/login")
 def login():
@@ -190,6 +187,28 @@ def register_user():
 def logout_user():
   session.clear()
   return redirect(url_for('hello'))
+
+# mypage
+@application.route("/mypage")
+def mypage():
+    if 'id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['id']
+    
+    # 1. 내 정보 가져오기
+    user_info = DB.get_user(user_id)
+    
+    # 2. 내가 등록한 상품만 필터링해서 가져오기
+    all_items = DB.get_items()
+    my_items = {}
+    
+    if all_items:
+        for name, item in all_items.items():
+            if item.get('seller') == user_id:
+                my_items[name] = item
+
+    return render_template("9_mypage.html", user_info=user_info, my_items=my_items)
 
 # GET 방식: 터미널과 주소에 모든 특징이 표현되나 이러한 이유로 파라미터 길이에 제한 O
 @application.route("/submit_item")

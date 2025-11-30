@@ -29,7 +29,9 @@ class DBhandler:
         user_info ={
             "id": data.get('id', None),
             "pw": pw,
-            "nickname": data.get('nickname', None)
+            "nickname": data.get('nickname', None),
+            "email": data.get('email', None),  # [추가됨] 이메일 저장
+            "phone": data.get('phone', None)   # [추가됨] 전화번호 저장
         }
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)   
@@ -66,17 +68,20 @@ class DBhandler:
     # database.py의 DBhandler 클래스 안에 추가해주세요!
     
     def get_user(self, id_):
-        # 'user' 테이블의 모든 데이터를 가져옴
         users = self.db.child("user").get()
         
-        # 데이터베이스에 사용자가 아무도 없을 경우 처리
+        # 데이터가 아예 없으면 None 반환
         if users.val() is None:
             return None
 
-        # 반복문을 돌면서 아이디가 일치하는 사용자 정보를 찾음
-        for user in users.each():
-            if user.key() == id_:
-                return user.val()
+        for res in users.each():
+            value = res.val()
+            
+            # [수정된 부분] 
+            # value['id'] 대신 value.get('id')를 사용합니다.
+            # 데이터에 'id'가 없으면 에러 대신 None을 반환하여 안전하게 넘어갑니다.
+            if value.get('id') == id_:
+                return value
                 
         return None
     

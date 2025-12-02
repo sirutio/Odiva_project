@@ -5,7 +5,20 @@
     /* --- 변수 및 기본 설정 --- */
     :root {
         --ewha-green: rgb(0, 70, 42);
-        --bg-color: #f6f6f6;
+        --bg-color: #f6f7f9;
+    }
+
+    /* 전체 배경 회색 */
+    body {
+        background-color: var(--bg-color);
+    }
+
+    /* index.html에서 감싸는 바깥 section 흰 배경 제거 */
+    body > section {
+        background: transparent;
+        box-shadow: none;
+        margin: 0;
+        padding: 30px 40px 60px;
     }
 
     /* --- 검색 및 필터 섹션 --- */
@@ -13,21 +26,36 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 15px;
-        background-color: #f4f4f4;
-        padding: 30px 60px;
+        background-color: var(--bg-color);
+        padding: 20px 40px;
         border-radius: 12px;
-        margin: 30px auto;
+        margin: 30px auto 20px;
         max-width: 1400px;
+    }
+
+    .search-section form {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .search-section select {
+        padding: 12px 16px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        background-color: #fff;
+        min-width: 140px;
     }
 
     .search-section input {
         flex: 1;
         max-width: 700px;
-        padding: 16px 20px;
+        padding: 14px 18px;
         border-radius: 10px;
         border: 1px solid #ccc;
-        font-size: 18px;
+        font-size: 16px;
         outline: none;
     }
 
@@ -35,24 +63,26 @@
         background-color: var(--ewha-green);
         color: white;
         border: none;
-        padding: 16px 24px;
+        padding: 14px 20px;
         border-radius: 10px;
         cursor: pointer;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
+        white-space: nowrap;
     }
 
     .add-btn {
         background-color: #333;
         color: white;
         border: none;
-        padding: 16px 24px;
+        padding: 14px 20px;
         border-radius: 10px;
         cursor: pointer;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 16px;
         text-decoration: none;
         transition: background 0.2s;
+        white-space: nowrap;
     }
     
     .add-btn:hover {
@@ -62,9 +92,8 @@
     /* --- 상품 카드 그리드 레이아웃 (4열 강제) --- */
     .product-container {
         display: grid;
-        /* 🔥 무조건 4개씩 배치 */
-        grid-template-columns: repeat(4, 1fr); 
-        gap: 30px; 
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
         padding: 20px 0;
         max-width: 1400px;
         margin: 0 auto;
@@ -79,15 +108,29 @@
 
     /* 반응형: 모바일에서는 1개씩 보기 */
     @media (max-width: 768px) {
+        body > section {
+            padding: 20px 16px 40px;
+        }
+
+        .search-section {
+            padding: 16px 18px;
+        }
+
+        .search-section form {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .search-section select,
+        .search-section input,
+        .search-btn,
+        .add-btn {
+            width: 100%;
+        }
+
         .product-container {
             grid-template-columns: 1fr;
         }
-        .search-section {
-            flex-direction: column;
-            padding: 20px;
-        }
-        .search-section input { width: 100%; }
-        .search-btn, .add-btn { width: 100%; }
     }
 
     /* --- 개별 카드 디자인 --- */
@@ -110,7 +153,7 @@
 
     .card-img-wrap {
         width: 100%;
-        height: 250px; 
+        height: 250px;
         border-radius: 16px;
         overflow: hidden;
         background-color: #f8f9fa;
@@ -149,7 +192,7 @@
         margin-bottom: 20px;
     }
 
-    /* 카드 하단 (평점, 버튼) */
+    /* 카드 하단 (상태 배지, 버튼) */
     .bottom {
         display: flex;
         justify-content: space-between;
@@ -177,6 +220,7 @@
         font-size: 14px;
         cursor: pointer;
         transition: background 0.2s;
+        white-space: nowrap;
     }
 
     .cart-btn:hover {
@@ -234,90 +278,130 @@
 {% endblock style %}
 
 {% block section %}
-    <section class="search-section">
-        <input type="text" placeholder="찾고 싶은 상품을 검색해보세요">
-        
-        <button class="search-btn" onclick="alert('검색 기능은 아직 준비중입니다!');">🔍 검색</button>
-        
+
+<section class="search-section">
+    <form method="get" action="/list">
+
+        <!-- 카테고리 선택 -->
+        <select name="category">
+            <option value="전체" {% if category=='전체' %}selected{% endif %}>전체</option>
+            <option value="Clothes" {% if category=='Clothes' %}selected{% endif %}>의류</option>
+            <option value="Beauty" {% if category=='Beauty' %}selected{% endif %}>뷰티</option>
+            <option value="Books" {% if category=='Books' %}selected{% endif %}>도서</option>
+            <option value="Electronics" {% if category=='Electronics' %}selected{% endif %}>전자제품</option>
+            <option value="household" {% if category=='household' %}selected{% endif %}>생활용품</option>
+            <option value="ETC" {% if category=='ETC' %}selected{% endif %}>기타</option>
+        </select>
+
+        <!-- 정렬 -->
+        <select name="sort">
+            <option value="name" {% if sort=='name' %}selected{% endif %}>이름순</option>
+            <option value="price" {% if sort=='price' %}selected{% endif %}>가격순</option>
+            <option value="date" {% if sort=='date' %}selected{% endif %}>최신순</option>
+        </select>
+
+        <!-- 검색어: 필요하면 name="q" 같은 파라미터 추가 -->
+        <input type="text" name="q" value="{{ q or '' }}" placeholder="찾고 싶은 상품을 검색해보세요">
+
+        <button type="submit" class="search-btn">적용</button>
+
         <a href="/reg_items" class="add-btn">+ 상품 등록</a>
-    </section>
+    </form>
+</section>
 
-    {% if total > 0 %}
-        <div style="max-width: 1400px; margin: 0 auto; padding: 0 10px; margin-bottom: 10px;">
-            <p style="font-size: 18px;">총 <b>{{total}}</b>개의 상품이 등록되어 있습니다.</p>
-        </div>
+{% if total > 0 %}
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 10px; margin-bottom: 10px;">
+        <p style="font-size: 18px;">
+            총 <b>{{ total }}</b>개의 상품이 등록되어 있습니다.
+        </p>
+    </div>
 
-        <div class="product-container">
+    <div class="product-container">
+        
+        {% for key, value in row1 %}
+        <div class="product-card" onclick="location.href='/view_detail/{{key}}/';">
+            <div class="card-img-wrap">
+                <img src="{{ url_for('static', filename='images/' + value.img_path) }}" alt="{{key}}">
+            </div>
             
-            {% for key, value in row1 %}
-            <div class="product-card" onclick="location.href='/view_detail/{{key}}/';">
-                <div class="card-img-wrap">
-                    <img src="{{ url_for('static', filename='images/' + value.img_path) }}" alt="{{key}}">
-                </div>
-                
-                <h3>{{ key }}</h3>
-                <p class="price">가격 문의</p>
-                <p class="desc">{{ value.category }}</p>
-                
-                <div class="bottom">
-                    {% if value.status == 'new' %}
-                        <span class="status-badge status-new">New</span>
-                    {% elif value.status == 'used' %}
-                        <span class="status-badge status-used">Used</span>
-                    {% else %}
-                        <span class="status-badge">Likely New</span>
-                    {% endif %}
-                    
-                    <button class="cart-btn" onclick="event.stopPropagation(); alert('장바구니 기능은 준비중입니다!');">
-                        + 담기
-                    </button>
-                </div>
-            </div>
-            {% endfor %}
-
-            {% for key, value in row2 %}
-            <div class="product-card" onclick="location.href='/view_detail/{{key}}/';">
-                <div class="card-img-wrap">
-                    <img src="{{ url_for('static', filename='images/' + value.img_path) }}" alt="{{key}}">
-                </div>
-                
-                <h3>{{ key }}</h3>
-                <p class="price">가격 문의</p>
-                <p class="desc">{{ value.category }}</p>
-                
-                <div class="bottom">
-                    {% if value.status == 'new' %}
-                        <span class="status-badge status-new">New</span>
-                    {% elif value.status == 'used' %}
-                        <span class="status-badge status-used">Used</span>
-                    {% else %}
-                        <span class="status-badge">Likely New</span>
-                    {% endif %}
-                    
-                    <button class="cart-btn" onclick="event.stopPropagation(); alert('장바구니 기능은 준비중입니다!');">
-                        + 담기
-                    </button>
-                </div>
-            </div>
-            {% endfor %}
+            <h3>{{ key }}</h3>
+            <p class="price">
+                {% if value.price and value.price|int > 0 %}
+                    {{ value.price }}원
+                {% else %}
+                    가격 문의
+                {% endif %}
+            </p>
+            <p class="desc">{{ value.category }}</p>
             
-        </div>
-
-        <div class="page-wrap">
-            <div class="page-nation">
-                <ul>
-                    {% for i in range(page_count) %}
-                        <a href="{{url_for('view_list', page=i)}}" class="{% if i == page %}active{% endif %}">{{i + 1}}</a>
-                    {% endfor %}
-                </ul>
+            <div class="bottom">
+                {% if value.status == 'new' %}
+                    <span class="status-badge status-new">New</span>
+                {% elif value.status == 'used' %}
+                    <span class="status-badge status-used">Used</span>
+                {% else %}
+                    <span class="status-badge">Likely New</span>
+                {% endif %}
+                
+                <button class="cart-btn" onclick="event.stopPropagation(); alert('장바구니 기능은 준비중입니다!');">
+                    + 담기
+                </button>
             </div>
         </div>
+        {% endfor %}
 
-    {% else %}
-        <div class="no-data">
-            <h3>등록된 상품이 없습니다. 😅</h3>
-            <p>첫 번째 상품을 등록해서 마켓을 시작해보세요!</p>
+        {% for key, value in row2 %}
+        <div class="product-card" onclick="location.href='/view_detail/{{key}}/';">
+            <div class="card-img-wrap">
+                <img src="{{ url_for('static', filename='images/' + value.img_path) }}" alt="{{key}}">
+            </div>
+            
+            <h3>{{ key }}</h3>
+            <p class="price">
+                {% if value.price and value.price|int > 0 %}
+                    {{ value.price }}원
+                {% else %}
+                    가격 문의
+                {% endif %}
+            </p>
+            <p class="desc">{{ value.category }}</p>
+            
+            <div class="bottom">
+                {% if value.status == 'new' %}
+                    <span class="status-badge status-new">New</span>
+                {% elif value.status == 'used' %}
+                    <span class="status-badge status-used">Used</span>
+                {% else %}
+                    <span class="status-badge">Likely New</span>
+                {% endif %}
+                
+                <button class="cart-btn" onclick="event.stopPropagation(); alert('장바구니 기능은 준비중입니다!');">
+                    + 담기
+                </button>
+            </div>
         </div>
-    {% endif %}
+        {% endfor %}
+        
+    </div>
+
+    <div class="page-wrap">
+        <div class="page-nation">
+            <ul>
+                {% for i in range(page_count) %}
+                    <a href="{{ url_for('view_list', page=i, sort=sort, category=category, q=q) }}"
+                       class="{% if i == page %}active{% endif %}">
+                       {{ i + 1 }}
+                    </a>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% else %}
+    <div class="no-data">
+        <h3>등록된 상품이 없습니다. 😅</h3>
+        <p>첫 번째 상품을 등록해서 마켓을 시작해보세요!</p>
+    </div>
+{% endif %}
 
 {% endblock section %}

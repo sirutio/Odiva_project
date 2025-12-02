@@ -16,7 +16,7 @@
     .main-container {
         max-width: 1000px; /* 너비를 800px -> 1000px로 확대 */
         margin: 0 auto;
-        padding: 60px 20px; /* 상하 여백도 좀 더 넉넉하게 */
+        padding: 40px 20px; /* 상하 여백도 좀 더 넉넉하게 */
     }
 
     .page-title {
@@ -148,6 +148,30 @@
     input[type="submit"]:hover {
         filter: brightness(0.9);
     }
+    textarea{
+        height:150px;          /* textarea 기본 높이 */
+        resize:vertical;       /* 크기 조절 허용: 수직만 */
+    }
+    input[type="text"], input[type="email"], textarea,
+    
+    select{
+        width:100%;
+        border:1px solid var(--border);
+        border-radius:12px;
+        padding:8px 12px;
+        background:#fafafa;
+        outline:none;
+        box-sizing:border-box;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus{
+        border-color:#c7c9d1;background:#fff
+    }
+    button{
+        border:1px solid var(--border); background:var(--surface); color:#111;
+        padding:10px 14px; border-radius:12px; cursor:pointer;
+        background:var(--primary);border-color:var(--primary);color:#fff
+    }
+    
 </style>
 {% endblock style %}
 
@@ -221,11 +245,38 @@
             </div>
         </fieldset>
 
-        <div class="submit-area">
-            <input type="submit" value="상품 등록하기 (Submit)">
-        </div>
+
 
     </form>
+    </form>
+    <br>
+          <h3 class="title">Seller Information</h3>
+      <form action="/submit_product" method="post" enctype="multipart/form-data">
+          <div class="col2">
+            <label for="sID">판매자 ID (Seller ID)</label>
+            <input type="text" id="sID" name="sID">
+          </div>
+
+          <div class="col2">
+            <label for="email">이메일 (Email)</label>
+            <input type="email" id="email" name="email">
+          </div>
+
+          <div class="col2">
+            <label for="addr">주소 (Address)</label>
+            <input type="text" id="addr" name="addr" placeholder="시/구 단위">
+          </div>
+
+          <div class="col2">
+            <label for="phone">전화번호 (Phone)</label>
+            <input type="text" id="phone" name="phone" placeholder="'-' 제외">
+          </div>
+
+            <div class="submit-area">
+                <input type="submit" value="상품 등록하기 (Submit)">
+            </div>
+
+      </form>
 </div>
 
 <script>

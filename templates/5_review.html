@@ -5,18 +5,27 @@
     /* --- 변수 및 기본 설정 --- */
     :root {
         --ewha-green: rgb(0, 70, 42);
-        --bg-color: #f6f6f6;
+        --bg-color: #f6f7f9;
         --text-color: #333;
+    }
+
+    body {
+        background-color: var(--bg-color);
+    }
+    
+    body > section {
+        background: transparent;
+        box-shadow: none;
     }
 
     /* --- 헤더 및 필터 섹션 --- */
     .review-header {
-        background-color: #f4f4f4;
-        padding: 40px 20px;
+        background-color: var(--bg-color);
+        padding: 10px 20px;
         text-align: center;
         border-radius: 12px;
         margin: 30px auto;
-        max-width: 1200px;
+        max-width: 1400px;
     }
 
     .review-header h1 {
@@ -36,7 +45,7 @@
         display: flex;
         justify-content: center;
         gap: 10px;
-        margin-bottom: 30px;
+        margin-bottom: 3px;
         flex-wrap: wrap;
     }
 
@@ -59,30 +68,28 @@
     }
 
     /* --- 검색창 및 정렬 --- */
-    .search-sort {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-        max-width: 800px;
-        margin: 0 auto;
-    }
 
     .search-box {
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 5px;
         flex: 1;
-        background: white;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        padding: 5px 5px 5px 15px;
+        background-color: var(--bg-color);
+        padding: 16px 60px;
+        border-radius: 12px;
+        margin: 3px auto 20px;
+        max-width: 1400px;
+  
     }
 
     .search-box input {
         flex: 1;
-        border: none;
-        font-size: 16px;
+        max-width: 900px;
+        padding: 16px 20px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-size: 18px;
         outline: none;
     }
 
@@ -90,18 +97,21 @@
         background-color: var(--ewha-green);
         color: white;
         border: none;
-        padding: 10px 15px;
-        border-radius: 6px;
+        padding: 16px 24px;
+        border-radius: 10px;
         cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
     }
 
     .add-review-btn {
         background-color: #333;
         color: white;
         text-decoration: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-weight: bold;
+        padding: 16px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 18px;
         display: inline-block;
     }
     .add-review-btn:hover { background-color: #555; }
@@ -240,13 +250,10 @@
         <button onclick="alert('준비중입니다.')">#맛집</button>
     </div>
 
-    <div class="search-sort">
-        <div class="search-box">
+    <div class="search-box">
             <input type="text" placeholder="제품명/리뷰 키워드로 검색">
-            <button class="search-btn" onclick="alert('검색 기능은 준비중입니다!')">🔍</button>
-        </div>
-        
-        <a href="#" class="add-review-btn" onclick="alert('리뷰 등록은 상품 상세 페이지에서 진행해 주세요!'); return false;">+ 리뷰 작성하기</a>
+            <button class="search-btn" onclick="alert('검색 기능은 준비중입니다!')">🔍검색</button>
+            <a href="#" class="add-review-btn" onclick="alert('리뷰 등록은 상품 상세 페이지에서 진행해 주세요!'); return false;">+ 리뷰 작성하기</a>
     </div>
 </section>
 

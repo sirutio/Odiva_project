@@ -5,7 +5,24 @@
     /* --- 변수 및 기본 설정 --- */
     :root {
         --ewha-green: rgb(0, 70, 42);
-        --bg-color: #f6f6f6;
+        --bg-color: #f6f7f9;
+    }
+
+    body {
+        background-color: var(--bg-color);
+    }
+    
+    body > section {
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .search-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
     }
 
     /* --- 검색 및 필터 섹션 --- */
@@ -13,17 +30,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 15px;
-        background-color: #f4f4f4;
-        padding: 30px 60px;
+        gap: 2px;
+        background-color: var(--bg-color);
+        padding: 16px 60px;
         border-radius: 12px;
-        margin: 30px auto;
+        margin: 30px auto 20px;
         max-width: 1400px;
+        flex-direction: column;   
     }
 
     .search-section input {
         flex: 1;
-        max-width: 700px;
+        max-width: 900px;
         padding: 16px 20px;
         border-radius: 10px;
         border: 1px solid #ccc;
@@ -230,16 +248,35 @@
     
     .no-data h3 { font-size: 24px; margin-bottom: 10px; }
     .no-data p { font-size: 18px; }
+
+
+
+    .search-section h1 {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    .search-section span {
+        font-size: 18px;
+        font-weight: 400;
+        color: #555;
+    }
 </style>
 {% endblock style %}
 
 {% block section %}
     <section class="search-section">
-        <input type="text" placeholder="찾고 싶은 상품을 검색해보세요">
-        
-        <button class="search-btn" onclick="alert('검색 기능은 아직 준비중입니다!');">🔍 검색</button>
-        
-        <a href="/reg_items" class="add-btn">+ 상품 등록</a>
+        <h1>상품 전체보기 <span>({{total}})</span></h1>
+
+        <div class="search-row">
+            <input type="text" placeholder="찾고 싶은 상품을 검색해보세요">
+            
+            <button class="search-btn" onclick="alert('검색 기능은 아직 준비중입니다!');">🔍 검색</button>
+            
+            <a href="/reg_items" class="add-btn">+ 상품 등록하기</a>
+        </div>
     </section>
 
     {% if total > 0 %}

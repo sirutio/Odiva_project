@@ -4,7 +4,7 @@
 <style>
     :root {
         --ewha-green: rgb(0, 70, 42);
-        --bg-color: #f6f6f6;
+        --bg-color: #f6f7f9;
     }
 
     body {
@@ -276,6 +276,94 @@
             grid-template-columns: 1fr;
         }
     }
+    @media (min-width: 1024px) {
+        .main-wrapper {
+            max-width: 1440px;
+            padding: 60px 80px 140px;    
+        }
+        .hero {
+            padding: 40px 40px;
+            min-height: 380px; 
+        }
+
+        .hero-content {
+            max-width: 480px;  
+        }
+
+        .hero-title-main {
+            font-size: 30px;  
+        }
+
+        .hero-desc {
+            font-size: 16px; 
+        }
+        .hero-btn {
+            font-size: 16px; 
+            padding: 14px 0;
+        }
+        .hot-section {
+            margin-bottom: 56px;   
+        }
+
+        .section-title {
+            font-size: 24px;          
+            margin-bottom: 22px;
+        }
+
+        .hot-cards {
+            gap: 28px;    
+        }
+        .hot-card {
+            padding: 22px 22px 24px;  
+        }
+
+        .hot-thumb {
+            height: 240px;  
+        }
+
+        .hot-name {
+            font-size: 16px;    
+        }
+
+        .hot-meta {
+            font-size: 14px;     
+        }
+
+        .notice-section {
+            padding: 32px 32px 34px; 
+        }
+
+        .notice-header {
+            font-size: 20px;    
+            margin-bottom: 18px;
+        }
+
+        .notice-box {
+            padding: 20px 22px;    
+        }
+
+        .notice-title {
+            font-size: 16px;      
+            margin-bottom: 14px;
+        }
+
+        .notice-list {
+            font-size: 15px;      
+        }
+
+        .notice-list li {
+            padding: 8px 0;
+        }
+
+        .notice-bullet {
+            width: 22px;        
+            height: 22px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+    }
+    
+
 </style>
 {% endblock style %}
 

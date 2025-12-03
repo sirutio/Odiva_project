@@ -24,6 +24,7 @@ def view_list():
     page = request.args.get("page", 0, type=int)
     sort = request.args.get("sort", "name")               # ✅ 추가
     category = request.args.get("category", "전체")      # ✅ 추가
+    q = request.args.get("q","").strip()
 
     per_page = 8
     per_row = 4
@@ -36,6 +37,11 @@ def view_list():
     if category != "전체":
         all_data = dict(filter(
             lambda x: x[1].get("category") == category,
+            all_data.items()
+        ))
+    if q:
+        all_data=dict(filter(
+            lambda x: q.lower() in x[0].lower(),
             all_data.items()
         ))
 
@@ -68,7 +74,8 @@ def view_list():
         row1=row1,
         row2=row2,
         sort=sort,
-        category=category
+        category=category,
+        q=q
     )
 
 
@@ -83,6 +90,8 @@ def view_item_detail(name):
 @application.route("/review")
 def view_review():
     page = request.args.get("page", 0, type=int)
+    keyword= request.args.get("q","").strip()
+
     per_page = 6
     per_row = 3
     row_count = int(per_page / per_row)
@@ -93,6 +102,26 @@ def view_review():
     data = DB.get_reviews()
     if data is None:
         data = {}
+
+    category = request.args.get('category')
+
+    if category:
+        filtered = {}
+        for key, value in data.items():
+            if value.get("category") == category:
+                filtered[key] = value
+        data = filtered
+
+    if keyword:
+        filtered = {}
+        for key,value in data.items():
+            if (keyword.lower() in value.get("title","").lower()
+                or keyword.lower() in value.get("name","").lower()
+                or keyword.lower() in value.get("review","").lower()):
+                filtered[key] = value
+        data = filtered
+
+            
 
     item_counts = len(data)
     data = dict(list(data.items())[start_idx:end_idx])
@@ -112,7 +141,7 @@ def view_review():
         row2=rows.get('data_1', {}).items(),
         limit=per_page,
         page=page,
-        page_count=int((item_counts / per_page) + 1),
+        page_count= math.ceil(item_counts/per_page),
         total=item_counts
     )
 
@@ -130,7 +159,7 @@ def reg_review_init(name):
 
 @application.route("/reg_review", methods=['POST'])
 def reg_review():
-    data = request.form
+    data = request.form.to_dict()
     image_file = request.files["file"]
 
     if image_file.filename != '':

@@ -234,19 +234,19 @@
     <h1>리뷰 전체보기 <span>({{total}})</span></h1>
 
     <div class="filter-tags">
-        <button onclick="alert('준비중입니다.')">#전자기기</button>
-        <button onclick="alert('준비중입니다.')">#화장품</button>
-        <button onclick="alert('준비중입니다.')">#도서</button>
-        <button onclick="alert('준비중입니다.')">#맛집</button>
+        <a href="{{ url_for('view_review', category='Clothes') }}"><button>#의류</button></a>
+        <a href="{{ url_for('view_review', category='Beauty') }}"><button>#뷰티</button></a>
+        <a href="{{ url_for('view_review', category='Books') }}"><button>#도서</button></a>
+        <a href="{{ url_for('view_review', category='Electronics') }}"><button>#전자기기</button></a>
+        <a href="{{ url_for('view_review', category='household') }}"><button>#생활용품</button></a>
+        <a href="{{ url_for('view_review', category='ETC') }}"><button>#기타</button></a>
     </div>
 
     <div class="search-sort">
-        <div class="search-box">
-            <input type="text" placeholder="제품명/리뷰 키워드로 검색">
-            <button class="search-btn" onclick="alert('검색 기능은 준비중입니다!')">🔍</button>
-        </div>
-        
-        <a href="#" class="add-review-btn" onclick="alert('리뷰 등록은 상품 상세 페이지에서 진행해 주세요!'); return false;">+ 리뷰 작성하기</a>
+        <form method="get" action="{{ url_for('view_review') }}" class="search-box">
+            <input type="text" name="q" placeholder="제품명/리뷰 키워드로 검색" value="{{ request.args.get('q','') }}">
+            <button type="submit" class="search-btn">🔍</button>
+        </form>
     </div>
 </section>
 
@@ -266,7 +266,7 @@
             
             <h3>{{ value.title }}</h3>
             
-            <p class="product-name">상품: {{ value.name }}</p>
+            <p class="product-name">상품: {{ value.item_name }}</p>
             
             <div class="rating">
                 {% if value.rate %}
@@ -296,7 +296,7 @@
             </div>
             
             <h3>{{ value.title }}</h3>
-            <p class="product-name">상품: {{ value.name }}</p>
+            <p class="product-name">상품: {{ value.item_name }}</p>
             
             <div class="rating">
                 {% if value.rate %}
@@ -321,11 +321,18 @@
         <div class="page-nation">
             <ul>
                 {% for i in range(page_count) %}
-                    <a href="{{url_for('view_review', page=i)}}" class="{% if i == page %}active{% endif %}">{{ i + 1 }}</a>
+                <a href="{{ url_for('view_review',
+                        page=i,
+                        q=request.args.get('q'),
+                        category=request.args.get('category')) }}"
+                   class="{% if i == page %}active{% endif %}">
+                    {{ i+1 }}
+                </a>
                 {% endfor %}
             </ul>
         </div>
     </div>
+
 
 {% else %}
     <div class="no-data">

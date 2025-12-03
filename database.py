@@ -105,15 +105,25 @@ class DBhandler:
 
     # ✅ 리뷰 등록
     def reg_review(self, data, img_path):
+        category = self.get_item_category(data['name'])
+
         review_info = {
             "item_name": data['name'],
             "title": data['title'],
             "rate": data['reviewStar'],
             "review": data['reviewContents'],
-            "img_path": img_path
+            "img_path": img_path,
+            "category": category
         }
         self.db.child("review").push(review_info)
         return True
+    #리뷰 등록 시 상품 category를 DB에서 꺼내오기
+
+    def get_item_category(self, item_name):
+        item=self.db.child("item").child(item_name).get()
+        if item.val():
+            return item.val().get("category")
+        return None
 
     # ✅ 리뷰 전체 조회
     def get_reviews(self):

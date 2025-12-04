@@ -273,7 +273,20 @@ def reg_item_submit_post():
 
 @application.route("/mypage")
 def mypage():
-    return render_template("mypage.html")
+    if 'id' not in session:
+        return redirect(url_for('login'))
+    
+    user_id = session['id']
+    
+    user_info = DB.get_user(user_id)
+    
+    my_items = DB.get_items_by_seller(user_id)
+    
+    return render_template(
+        "9_mypage.html", 
+        user_info=user_info, 
+        my_items=my_items
+    )
 
 # ======================= 실행 =======================
 if __name__ == "__main__":

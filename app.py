@@ -15,15 +15,15 @@ DB = DBhandler()
 @application.route("/")
 def hello():
     hot_items= DB.get_hot_items()
-    return render_template("0_main.html", hot_items=hot_items)  # 수정 반영 ✅
+    return render_template("0_main.html", hot_items=hot_items)  
 
 
 # ======================= 상품 리스트 =======================
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 0, type=int)
-    sort = request.args.get("sort", "name")               # ✅ 추가
-    category = request.args.get("category", "전체")      # ✅ 추가
+    sort = request.args.get("sort", "name")             
+    category = request.args.get("category", "전체")     
     q = request.args.get("q","").strip()
 
     per_page = 8
@@ -189,7 +189,7 @@ def like(name):
 @application.route('/unlike/<name>/', methods=['POST'])
 def unlike(name):
     DB.update_heart(session['id'], 'N', name)
-    return jsonify({'msg': '안좋아요 완료'})
+    return jsonify({'msg': '좋아요 취소'})
 
 
 # ======================= 상품 등록 =======================
@@ -214,7 +214,7 @@ def login_user():
         session['id'] = id_
         user_info = DB.get_user(id_)
         session['nickname'] = user_info.get('nickname', id_)
-        return redirect(url_for('view_list'))   # ✅ 수정 반영
+        return redirect(url_for('hello'))   
     else:
         flash("Wrong ID or PW!")
         return render_template("8_login.html")
@@ -242,7 +242,7 @@ def register_user():
 @application.route("/logout")
 def logout_user():
     session.clear()
-    return redirect(url_for('view_list'))   # ✅ 수정 반영
+    return redirect(url_for('hello')) 
 
 
 # ======================= 상품 제출 =======================
@@ -273,7 +273,20 @@ def reg_item_submit_post():
 
 @application.route("/mypage")
 def mypage():
-    return render_template("mypage.html")
+    if 'id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['id']
+
+    user_info = DB.get_user(user_id)
+
+    my_items = DB.get_items_by_seller(user_id)
+
+    return render_template(
+        "9_mypage.html", 
+        user_info=user_info, 
+        my_items=my_items
+    )
 
 # ======================= 실행 =======================
 if __name__ == "__main__":

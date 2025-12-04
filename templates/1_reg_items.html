@@ -37,40 +37,62 @@
     }
 
     form {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 10px 4px 8px;
+        color: #111827;
+    }
+
+    .card {
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
-        padding: 50px;
+        padding: 40px 50px;
         display: flex;
         flex-wrap: wrap;
         gap: 30px;
+        box-sizing: border-box;
     }
 
     label {
+        display: block;
         font-size: 16px;
         margin-bottom: 10px;
         color: #374151;
         font-weight: bold;
     }
 
-    input[type="text"], select {
+    input[type="text"], input[type="email"], select ,textarea {
         width: 100%;
         border: 1px solid var(--border);
         border-radius: 12px;
         padding: 14px 16px;
         background: #fafafa;
         font-size: 16px;
+        outline: none;
+        box-sizing: border-box;
     }
 
-    input:focus, select:focus {
+    input:focus, select:focus, textarea:focus {
         border-color: #c7c9d1;
         background: white;
     }
 
     .col1 { width: 100%; }
     .col2 { width: calc(50% - 15px); }
-    .col3 { width: calc(33.33% - 20px); }
+    .col3 { width: calc(50% - 15px); }
 
     @media (max-width: 768px) {
         .col2, .col3 { width: 100%; }
@@ -127,6 +149,11 @@
     input[type="submit"]:hover {
         filter: brightness(0.9);
     }
+
+    textarea {
+        height: 150px;
+        resize: vertical;
+    }
 </style>
 {% endblock style %}
 
@@ -136,31 +163,13 @@
     <h1 class="page-title">상품 등록 (Add New Product)</h1>
 
     <form action="/submit_item_post" enctype="multipart/form-data" method="post">
-
+        <h2 class="section-title">Product Information</h2>
+        <div class="card">
         <div class="col1">
             <label>상품명</label>
             <input type="text" name="name" required>
         </div>
 
-        <div class="col2">
-            <label>판매자 ID</label>
-            <input type="text" name="seller" required>
-        </div>
-
-        <div class="col2">
-            <label>전화번호</label>
-            <input type="text" name="phone">
-        </div>
-
-        <div class="col2">
-            <label>이메일</label>
-            <input type="text" name="email" required>
-        </div>
-
-        <div class="col2">
-            <label>거래 장소</label>
-            <input type="text" name="addr" required>
-        </div>
 
         <div class="col3">
             <label>카테고리</label>
@@ -183,7 +192,7 @@
             </select>
         </div>
 
-        <div class="col3">
+        <div class="col2">
             <label>카드결제 여부</label>
             <select name="card">
                 <option value="Y">가능</option>
@@ -204,6 +213,30 @@
                 <span class="sub-hint">대표 이미지 1장</span>
             </div>
         </fieldset>
+        </div>
+        
+        <h2 class="section-title">Seller Information</h2>
+        <div class="card">
+            <div class="col2">
+                <label>판매자 ID</label>
+                <input type="text" name="seller" required>
+            </div>
+
+            <div class="col2">
+                <label>전화번호</label>
+                <input type="text" placeholder="숫자만 입력" name="phone">
+            </div>
+
+            <div class="col2">
+                <label>이메일</label>
+                <input type="text" name="email" required>
+            </div>
+
+            <div class="col2">
+                <label>거래 장소</label>
+                <input type="text" name="addr" required>
+            </div>
+        </div>
 
         <div class="submit-area">
             <input type="submit" value="상품 등록">

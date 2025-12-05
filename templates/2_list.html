@@ -327,12 +327,13 @@
 
         <!-- 카테고리 선택 -->
     <div class="filter-tags">
-        <a href="{{ url_for('view_review', category='Clothes') }}"><button>#의류</button></a>
-        <a href="{{ url_for('view_review', category='Beauty') }}"><button>#뷰티</button></a>
-        <a href="{{ url_for('view_review', category='Books') }}"><button>#도서</button></a>
-        <a href="{{ url_for('view_review', category='Electronics') }}"><button>#전자기기</button></a>
-        <a href="{{ url_for('view_review', category='household') }}"><button>#생활용품</button></a>
-        <a href="{{ url_for('view_review', category='ETC') }}"><button>#기타</button></a>
+        <a href="{{ url_for('view_list', category='전체') }}"><button>#전체</button></a>
+        <a href="{{ url_for('view_list', category='Clothes') }}"><button>#의류</button></a>
+        <a href="{{ url_for('view_list', category='Beauty') }}"><button>#뷰티</button></a>
+        <a href="{{ url_for('view_list', category='Books') }}"><button>#도서</button></a>
+        <a href="{{ url_for('view_list', category='Electronics') }}"><button>#전자기기</button></a>
+        <a href="{{ url_for('view_list', category='household') }}"><button>#생활용품</button></a>
+        <a href="{{ url_for('view_list', category='ETC') }}"><button>#기타</button></a>
     </div>
     <form method="get" action="/list">
         <!-- 정렬 -->

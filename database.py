@@ -179,16 +179,16 @@ class DBhandler:
 
         hot_list.sort(key=lambda x: x['like_count'], reverse=True)
         return hot_list[:limit]
-
+    
     def get_items_by_seller(self, seller_id):
         items = self.db.child("item").get()
         target_value = {}
-
+        
         if items.val():
             for res in items.each():
                 value = res.val()
 
                 if value.get('seller') == seller_id:
                     target_value[res.key()] = value
-
+                    
         return target_value

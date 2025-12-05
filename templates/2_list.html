@@ -381,8 +381,8 @@
                     <span class="status-badge">Likely New</span>
                 {% endif %}
                 
-                <button class="cart-btn" onclick="event.stopPropagation(); alert('장바구니 기능은 준비중입니다!');">
-                    + 담기
+                <button class="cart-btn" onclick="event.stopPropagation(); purchaseItem('{{ key }}', '{{ value.price }}')">
+                    구매하기
                 </button>
             </div>
         </div>
@@ -413,8 +413,8 @@
                     <span class="status-badge">Likely New</span>
                 {% endif %}
                 
-                <button class="cart-btn" onclick="event.stopPropagation(); alert('장바구니 기능은 준비중입니다!');">
-                    + 담기
+                <button class="cart-btn" onclick="event.stopPropagation(); purchaseItem('{{ key }}', '{{ value.price }}')">
+                    구매하기
                 </button>
             </div>
         </div>

@@ -5,16 +5,25 @@
     /* --- 변수 및 기본 설정 --- */
     :root {
         --ewha-green: rgb(0, 70, 42);
-        --bg-color: #f6f6f6;
+        --bg-color: #f6f7f9;
         --text-color: #333;
+    }
+    body {
+        background-color: var(--bg-color);
+    }
+
+    body > section {
+        background: transparent;
+        box-shadow: none;
+        margin: 0;
+        padding: 30px 40px 60px;   /* 여백은 취향대로 조절 */
     }
 
     /* --- 헤더 및 필터 섹션 --- */
     .review-header {
-        background-color: #f4f4f4;
+        background-color: transparent;
         padding: 40px 20px;
         text-align: center;
-        border-radius: 12px;
         margin: 30px auto;
         max-width: 1200px;
     }
@@ -22,7 +31,7 @@
     .review-header h1 {
         font-size: 28px;
         font-weight: 800;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
         color: #2c3e50;
     }
 
@@ -71,28 +80,33 @@
     .search-box {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 10px;      /* input과 버튼 사이 간격 */
         flex: 1;
-        background: white;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        padding: 5px 5px 5px 15px;
+        background: transparent;
+        border: none;
+        padding: 0;
     }
 
     .search-box input {
         flex: 1;
-        border: none;
+        padding: 14px 18px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
         font-size: 16px;
         outline: none;
+        background-color: #fff;
     }
 
     .search-btn {
         background-color: var(--ewha-green);
         color: white;
         border: none;
-        padding: 10px 15px;
-        border-radius: 6px;
+        padding: 14px 20px;
+        border-radius: 10px;
         cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        white-space: nowrap;
     }
 
     .add-review-btn {

@@ -2,18 +2,15 @@
 
 {% block style %}
 <style>
-    /* --- 변수 및 기본 설정 --- */
     :root {
         --ewha-green: rgb(0, 70, 42);
         --bg-color: #f6f7f9;
     }
 
-    /* 전체 배경 회색 */
     body {
         background-color: var(--bg-color);
     }
 
-    /* index.html에서 감싸는 바깥 section 흰 배경 제거 */
     body > section {
         background: transparent;
         box-shadow: none;
@@ -21,16 +18,30 @@
         padding: 30px 40px 60px;
     }
 
-    /* --- 검색 및 필터 섹션 --- */
     .search-section {
         display: flex;
+        flex-direction: column; 
+        gap: 20px;  
         justify-content: center;
         align-items: center;
-        background-color: var(--bg-color);
+        background-color: transparent;
         padding: 20px 40px;
         border-radius: 12px;
         margin: 30px auto 20px;
         max-width: 1400px;
+        text-align: center;
+    }
+
+    .search-section h1 {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+	.search-section span {
+        font-size: 18px;
+        font-weight: 400;
+        color: #555;
     }
 
     .search-section form {
@@ -38,6 +49,7 @@
         gap: 10px;
         width: 100%;
         align-items: center;
+        justify-content: center;
     }
 
     .search-section select {
@@ -71,6 +83,32 @@
         white-space: nowrap;
     }
 
+    .filter-tags {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+    .filter-tags button {
+        border: 1px solid #ddd;
+        background-color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15px;
+        color: #555;
+        transition: all 0.2s;
+    }
+
+    .filter-tags button:hover {
+        background-color: var(--ewha-green);
+        color: white;
+        border-color: var(--ewha-green);
+    }
+
     .add-btn {
         background-color: #333;
         color: white;
@@ -89,7 +127,6 @@
         background-color: #555;
     }
 
-    /* --- 상품 카드 그리드 레이아웃 (4열 강제) --- */
     .product-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -99,14 +136,17 @@
         margin: 0 auto;
     }
 
-    /* 반응형: 화면이 1200px 보다 작아지면 2개씩 보기 */
+
+    @media (max-width: 600px) {
+        .product-container { grid-template-columns: 1fr; }
+        .sort { flex-direction: column; }
+    }
+
     @media (max-width: 1200px) {
         .product-container {
             grid-template-columns: repeat(2, 1fr);
         }
     }
-
-    /* 반응형: 모바일에서는 1개씩 보기 */
     @media (max-width: 768px) {
         body > section {
             padding: 20px 16px 40px;
@@ -116,22 +156,25 @@
             padding: 16px 18px;
         }
 
-        .search-section form {
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .search-section select,
-        .search-section input,
-        .search-btn,
-        .add-btn {
-            width: 100%;
-        }
-
-        .product-container {
-            grid-template-columns: 1fr;
-        }
     }
+
+    @media (max-width: 600px) {
+    .product-container {
+        grid-template-columns: 1fr; 
+    }
+
+    .search-section form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-section select,
+    .search-section input,
+    .search-btn,
+    .add-btn {
+        width: 100%;
+    }
+}
 
     /* --- 개별 카드 디자인 --- */
     .product-card {
@@ -227,7 +270,6 @@
         background-color: #143d22;
     }
 
-    /* --- 페이지네이션 --- */
     .page-wrap {
         margin-top: 60px;
         margin-bottom: 60px;
@@ -280,31 +322,27 @@
 {% block section %}
 
 <section class="search-section">
-    <form method="get" action="/list">
+    <h1>상품 전체보기 <span>({{total}})</span></h1>
+
 
         <!-- 카테고리 선택 -->
-        <select name="category">
-            <option value="전체" {% if category=='전체' %}selected{% endif %}>전체</option>
-            <option value="Clothes" {% if category=='Clothes' %}selected{% endif %}>의류</option>
-            <option value="Beauty" {% if category=='Beauty' %}selected{% endif %}>뷰티</option>
-            <option value="Books" {% if category=='Books' %}selected{% endif %}>도서</option>
-            <option value="Electronics" {% if category=='Electronics' %}selected{% endif %}>전자제품</option>
-            <option value="household" {% if category=='household' %}selected{% endif %}>생활용품</option>
-            <option value="ETC" {% if category=='ETC' %}selected{% endif %}>기타</option>
-        </select>
-
+    <div class="filter-tags">
+        <a href="{{ url_for('view_review', category='Clothes') }}"><button>#의류</button></a>
+        <a href="{{ url_for('view_review', category='Beauty') }}"><button>#뷰티</button></a>
+        <a href="{{ url_for('view_review', category='Books') }}"><button>#도서</button></a>
+        <a href="{{ url_for('view_review', category='Electronics') }}"><button>#전자기기</button></a>
+        <a href="{{ url_for('view_review', category='household') }}"><button>#생활용품</button></a>
+        <a href="{{ url_for('view_review', category='ETC') }}"><button>#기타</button></a>
+    </div>
+    <form method="get" action="/list">
         <!-- 정렬 -->
         <select name="sort">
             <option value="name" {% if sort=='name' %}selected{% endif %}>이름순</option>
             <option value="price" {% if sort=='price' %}selected{% endif %}>가격순</option>
             <option value="date" {% if sort=='date' %}selected{% endif %}>최신순</option>
         </select>
-
-        <!-- 검색어: 필요하면 name="q" 같은 파라미터 추가 -->
         <input type="text" name="q" value="{{ q or '' }}" placeholder="찾고 싶은 상품을 검색해보세요">
-
-        <button type="submit" class="search-btn">적용</button>
-
+        <button type="submit" class="search-btn">🔍</button>
         <a href="/reg_items" class="add-btn">+ 상품 등록</a>
     </form>
 </section>

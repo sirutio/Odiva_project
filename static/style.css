@@ -16,6 +16,7 @@ body {
     color: var(--text);
     background-color: #fdfdfd;
     margin: 0;
+    overflow-x: hidden;
 }
 
 a {
@@ -34,13 +35,11 @@ ul {
     background-color: rgb(0, 70, 42);
     color: white;
     width: 100%;
-    height: 130px;            /* 높이 고정 */
+    height: 100px;        
     display: flex;
     justify-content: space-between; 
     align-items: center;
     padding: 0 40px;
-    
-    /* 상단 고정 */
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -55,7 +54,7 @@ ul {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 0;                /* 구분선 마진으로 간격 조절 */
+    gap: 0; 
     height: 100%;
 }
 
@@ -103,22 +102,21 @@ ul {
     color: white;
     font-weight: 700;
     padding: 10px 0;
-    display: flex;           /* 화살표 정렬을 위해 flex 사용 */
-    align-items: center;     /* 수직 중앙 정렬 */
+    display: flex;        
+    align-items: center;  
     white-space: nowrap;
 }
 
-/* 🔥 [신규] 세련된 화살표 아이콘 스타일 */
 .arrow-down {
     border: solid white;
-    border-width: 0 2px 2px 0; /* 우측, 하단만 선 표시 */
+    border-width: 0 2px 2px 0; 
     display: inline-block;
-    padding: 3px;              /* 화살표 크기 */
-    margin-left: 10px;         /* 닉네임과 간격 */
-    margin-bottom: 2px;        /* 시각적 위치 보정 */
-    transform: rotate(45deg);  /* 45도 회전시켜 화살표 모양 만듦 */
-    transition: transform 0.3s ease; /* 부드러운 회전 애니메이션 */
-    border-radius: 1px;        /* 끝부분 살짝 둥글게 */
+    padding: 3px;            
+    margin-left: 10px;      
+    margin-bottom: 2px;      
+    transform: rotate(45deg);  
+    transition: transform 0.3s ease; 
+    border-radius: 1px;      
 }
 
 /* 마우스 올렸을 때 화살표 뒤집기 효과 */
@@ -131,8 +129,7 @@ ul {
 .user-menu-content {
     display: none;
     position: absolute;
-    /* 🔥 [수정] 닉네임을 가리지 않도록 네비바 높이(80px)만큼 내림 */
-    top: 130px;               
+    top: 100px;               
     right: 0;
     background-color: #fff;
     min-width: 180px;

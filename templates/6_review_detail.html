@@ -4,16 +4,16 @@
 <style>
     /* --- 변수 및 기본 설정 --- */
     :root {
-        --bg-color: #fdfdfd;
+        --bg-color: #f6f7f9;
         --box-bg: #f8f9fa;
-        --star-color: #fdd835; /* 별 색상 (노란색) */
+        --star-color: #fdd835;
     }
 
     /* --- 레이아웃 --- */
     .detail-container {
-        max-width: 800px;
+        max-width: 900px; 
         margin: 0 auto;
-        padding: 60px 20px;
+        padding: 80px 20px; 
     }
 
     .page-section {
@@ -41,7 +41,7 @@
 
     .stars {
         color: var(--star-color);
-        font-size: 40px; /* 별 크기 */
+        font-size: 40px;
         letter-spacing: 5px;
         margin-bottom: 10px;
         line-height: 1;
@@ -68,25 +68,32 @@
         background-color: var(--box-bg);
         border: 1px solid #eee;
         border-radius: 16px;
-        padding: 40px;
-        text-align: left;
-        font-size: 18px; /* 본문 글씨 키움 */
+        padding: 32px;
+        font-size: 17px;
         line-height: 1.8;
         color: #333;
-        white-space: pre-wrap; /* 줄바꿈 유지 */
+        text-align: center;
+    }
+
+    .review-text {
+        max-width: 600px;      
+        margin: 0 auto 24px; 
+        text-align: center;   
+        white-space: pre-wrap; 
     }
 
     /* 리뷰 이미지 */
     .review-img-wrapper {
-        margin-top: 30px;
-        text-align: center;
+        margin-top: 32px;
+        display: flex;
+        justify-content: center;
     }
 
     .review-img {
-        max-width: 100%;
-        max-height: 400px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        width: 340px;       
+        max-width: 100%;      
+        border-radius: 16px;  
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
         border: 1px solid #ddd;
     }
 
@@ -146,7 +153,9 @@
         </div>
 
         <div class="review-content-box">
-            {{ data.review }}
+            <p class="review-text">
+                {{ data.review }}
+            </p>
 
             {% if data.img_path %}
                 <div class="review-img-wrapper">
@@ -155,9 +164,12 @@
             {% endif %}
         </div>
 
+
+
         <div class="btn-wrapper">
             <button class="btn btn-back" onclick="location.href='/review';">목록으로 돌아가기</button>
             <a href="{{ url_for('view_item_detail', name=data.item_name) }}" class="btn btn-product">이 상품 보러가기</a>
-    </section>
+        </div>    
+        </section>
 </div>
 {% endblock section %}

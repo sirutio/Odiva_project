@@ -1,0 +1,154 @@
+{% extends "index.html" %}
+
+{% block section %}
+<style>
+    body {
+        background-color: #f6f7f9; /* 배경색이 있어야 흰색 박스가 돋보입니다 */
+    }
+
+    .history-container {
+        width: 90%;             /* 모바일에서는 꽉 차게 */
+        max-width: 600px;       /* PC에서는 너무 넓지 않게 (800px -> 600px 축소) */
+        min-height: 600px;      /* 내용이 없어도 최소 이만큼 길게 유지 (잘린 느낌 방지) */
+        
+        margin: 50px auto;
+        padding: 40px;          /* 안쪽 여백을 넉넉하게 */
+        
+        background-color: white;
+        border-radius: 20px;    /* 모서리를 더 둥글게 */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* 그림자를 은은하게 */
+    }
+
+    /* 제목 스타일 */
+    .history-container h2 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .history-container hr {
+        border: 0;
+        height: 1px;
+        background: #eee;
+        margin-bottom: 30px;
+    }
+
+    /* 초록색 둥근 알림창 (이전 요청 반영) */
+    .refund-notice {
+        background-color: rgb(0, 70, 42);
+        color: white;
+        font-weight: bold;
+        font-size: 14px;        /* 글씨 크기 살짝 조정 */
+        
+        border-radius: 50px;    /* 캡슐 모양 */
+        padding: 10px 30px;
+        
+        width: fit-content;
+        margin: 0 auto 40px auto; /* 아래 여백을 더 줘서 시원하게 */
+        box-shadow: 0 4px 10px rgba(0, 70, 42, 0.2);
+    }
+
+    /* 리스트 아이템 스타일 */
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #f0f0f0; /* 아주 연한 회색 */
+    }
+    .order-item:last-child {
+        border-bottom: none;
+    }
+
+    .order-info h3 { 
+        margin: 0 0 5px 0; 
+        font-size: 18px; 
+    }
+    .order-info p { 
+        margin: 0; 
+        color: #666; 
+        font-size: 15px;
+    }
+    
+    .btn-cancel {
+        background-color: #fff;
+        color: #e74c3c;
+        border: 1px solid #e74c3c;
+        padding: 6px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+        transition: all 0.2s;
+    }
+    .btn-cancel:hover { 
+        background-color: #e74c3c; 
+        color: white;
+    }
+
+    /* [수정] 내역 없음 안내 스타일 */
+    .no-orders { 
+        text-align: center; 
+        margin-top: 100px;      /* 위쪽 여백을 많이 줘서 중앙 쯤에 오게 */
+        color: #aaa;            /* 연한 회색으로 변경 */
+    }
+
+    .no-orders p {
+        font-size: 15px;        /* 글씨 크기 축소 (요청사항) */
+        font-weight: normal;
+    }
+    
+    /* 아이콘 추가 (선택사항) */
+    .no-orders span {
+        display: block;
+        font-size: 40px;
+        margin-bottom: 10px;
+        opacity: 0.3;
+    }
+</style>
+
+<div class="history-container">
+    <h2>결제 내역</h2>
+    <hr>
+    
+    <div class="refund-notice">
+        !! 구매 3일 내에만 환불 가능 !!
+    </div>
+
+    {% if orders %}
+        {% for order in orders %}
+        <div class="order-item">
+            <div class="order-info">
+                <h3>{{ order.name }}</h3>
+                <p>가격: {{ order.price }}원</p>
+            </div>
+            <button class="btn-cancel" onclick="cancelOrder('{{ order.name }}')">구매 취소</button>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-orders">
+            <span>📦</span> <p>아직 구매한 내역이 없습니다.</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function cancelOrder(name) {
+    if (confirm("정말 '" + name + "' 상품의 구매를 취소하시겠습니까?")) {
+        $.ajax({
+            type: "POST",
+            url: "/cancel_order",
+            data: { name: name },
+            success: function(response) {
+                alert(response.msg);
+                window.location.reload(); // 새로고침해서 목록 갱신
+            },
+            error: function() {
+                alert("취소 중 오류가 발생했습니다.");
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

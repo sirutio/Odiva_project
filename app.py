@@ -288,6 +288,52 @@ def mypage():
         my_items=my_items
     )
 
+# ======================= [수정] 결제(구매) 시스템 =======================
+
+# [1] 결제 내역 페이지 보기
+@application.route("/payment_history")
+def view_payment_history():
+    if 'id' not in session:
+        return redirect(url_for('login'))
+    
+    user_id = session['id']
+    
+    # DB에서 구매 내역 가져오기
+    my_orders = DB.get_orders(user_id)
+    
+    return render_template("10_payment_history.html", orders=my_orders)
+
+
+# [2] 상품 구매 처리
+@application.route("/buy_item", methods=['POST'])
+def buy_item():
+    if 'id' not in session:
+        return jsonify({'msg': '로그인이 필요합니다!'})
+    
+    user_id = session['id']
+    name = request.form.get('name')
+    price = request.form.get('price')
+    
+    # DB에 주문 저장
+    DB.insert_order(user_id, name, price)
+    
+    return jsonify({'msg': '구매가 완료되었습니다!'})
+
+
+# [3] 구매 취소 처리
+@application.route("/cancel_order", methods=['POST'])
+def cancel_order():
+    if 'id' not in session:
+        return jsonify({'msg': '로그인이 필요합니다!'})
+    
+    user_id = session['id']
+    name = request.form.get('name')
+    
+    # DB에서 해당 주문 삭제
+    DB.cancel_order(user_id, name)
+                
+    return jsonify({'msg': '구매가 취소되었습니다.'})
+
 # ======================= 실행 =======================
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)

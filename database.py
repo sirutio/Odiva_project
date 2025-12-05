@@ -192,3 +192,42 @@ class DBhandler:
                     target_value[res.key()] = value
                     
         return target_value
+    
+    # ... (기존 코드들) ...
+
+    # ======================= [추가] 구매(Order) 관련 메서드 =======================
+
+    # 1. 구매 내역 저장 (user_id 하위에 저장)
+    def insert_order(self, user_id, name, price):
+        order_info = {
+            "name": name,
+            "price": price,
+            "date": datetime.now().timestamp()
+        }
+        # users -> user_id -> orders -> (random_key) -> order_info 구조로 저장
+        self.db.child("orders").child(user_id).push(order_info)
+        return True
+
+    # 2. 특정 사용자의 구매 내역 조회
+    def get_orders(self, user_id):
+        orders = self.db.child("orders").child(user_id).get().val()
+        # Firebase는 {key: {data}, ...} 형태로 반환하므로 값만 리스트로 변환하면 편함
+        if orders:
+            # 딕셔너리의 값들만 뽑아서 리스트로 반환 (날짜 역순 정렬 추천)
+            order_list = list(orders.values())
+            order_list.sort(key=lambda x: x['date'], reverse=True) # 최신순 정렬
+            return order_list
+        return []
+
+    # 3. 구매 취소 (삭제)
+    def cancel_order(self, user_id, item_name):
+        orders = self.db.child("orders").child(user_id).get()
+        
+        if orders.val():
+            for res in orders.each():
+                # 이름이 같은 상품을 찾아서 삭제 (가장 먼저 발견된 것 하나만)
+                if res.val().get('name') == item_name:
+                    # 해당 키(key)를 찾아 제거
+                    self.db.child("orders").child(user_id).child(res.key()).remove()
+                    return True
+        return False

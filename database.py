@@ -179,6 +179,21 @@ class DBhandler:
 
         hot_list.sort(key=lambda x: x['like_count'], reverse=True)
         return hot_list[:limit]
+
+    # ======================= [추가] 좋아요한 상품 목록 조회 =======================
+    def get_liked_items(self, user_id):
+        hearts = self.db.child("heart").child(user_id).get().val()
+        if not hearts:
+            return {}
+
+        liked_items = {}
+        items = self.get_items()  # 전체 상품 로드
+
+        for item_name, info in hearts.items():
+            if info.get("interested") == "Y" and item_name in items:
+                liked_items[item_name] = items[item_name]
+
+        return liked_items
     
     def get_items_by_seller(self, seller_id):
         items = self.db.child("item").get()

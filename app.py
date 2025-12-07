@@ -277,6 +277,28 @@ def mypage():
         return redirect(url_for('login'))
     
     user_id = session['id']
+     # 1. 내 정보 가져오기
+    user_info = DB.get_user(user_id)
+
+    # 2. 내가 등록한 상품 가져오기
+    all_items = DB.get_items()
+    my_items = {}
+
+    if all_items:
+        for name, item in all_items.items():
+            if item.get('seller') == user_id:
+                my_items[name] = item
+
+    # 3. ❤️ 내가 좋아요한 상품 가져오기 (추가)
+    my_likes = DB.get_liked_items(user_id)
+
+    return render_template(
+        "9_mypage.html",
+        user_info=user_info,
+        my_items=my_items,
+        my_likes=my_likes   # 템플릿으로 전달
+    )
+
     
     user_info = DB.get_user(user_id)
     

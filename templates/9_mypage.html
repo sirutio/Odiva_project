@@ -236,5 +236,39 @@
         {% endif %}
     </div>
 
+        <!-- 좋아요한 상품 섹션 추가-->
+    <div style="margin-top: 50px;">
+        <div class="section-title">
+            내가 좋아요한 상품
+            <span class="count-badge">{{ my_likes|length }}</span>
+        </div>
+
+        {% if my_likes %}
+        <div class="item-grid">
+            {% for name, item in my_likes.items() %}
+            <div class="item-card" onclick="location.href='/view_detail/{{ name }}/';">
+                <div class="item-thumb">
+                    {% if item.img_path %}
+                    <img src="{{ url_for('static', filename='images/' + item.img_path) }}" alt="{{ name }}">
+                    {% else %}
+                    <span style="color:#ccc; font-size:12px;">이미지 없음</span>
+                    {% endif %}
+                </div>
+
+                <div class="item-info">
+                    <div class="item-name">{{ name }}</div>
+                    <div class="item-meta">{{ item.addr }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div style="text-align:center; padding:60px 0; color:#888;">
+            <p>좋아요한 상품이 없습니다.</p>
+        </div>
+        {% endif %}
+    </div>
+
 </div>
 {% endblock section %}
